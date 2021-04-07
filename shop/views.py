@@ -19,12 +19,14 @@ class HomeView(ListView):
     paginate_by = 10
 
 
-class CheckoutView(View):
+class CheckoutView(LoginRequiredMixin, View):
 
     def get(self, *args, **kwargs):
         form = CheckoutForm()
+        order = Order.objects.get(user=self.request.user, ordered=False)
         context = {
-            'form': form
+            'form': form,
+            'object': order
         }
         return render(self.request, "shop/checkout.html", context)
     
@@ -34,7 +36,7 @@ class CheckoutView(View):
             order = Order.objects.get(user=self.request.user, ordered=False)
             if form.is_valid():
                 street_address = form.cleaned_data.get('street_address')    
-                apartment_address = form.cleaned_data.get('apartment_address')    
+                apartment_address = form.cleaned_data.get('apartment_address')
                 country = form.cleaned_data.get('country')    
                 zip = form.cleaned_data.get('zip')    
                 # TODO add functionality for these fields 
@@ -44,7 +46,7 @@ class CheckoutView(View):
                 billing_address = BillingAddress(
                     user=self.request.user,
                     street_address=street_address,
-                    apartment_address=appartment_address,
+                    apartment_address=apartment_address,
                     country=country,
                     zip=zip
                 )
@@ -60,7 +62,7 @@ class CheckoutView(View):
             return redirect('shop:cart')        
 
 
-class PaymentView(View):
+class PaymentView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         return render(self.request, 'shop/payment.html')
 
@@ -80,7 +82,7 @@ class CartView(LoginRequiredMixin, View):
             }
             return render(self.request, 'shop/cart.html', context)
         except ObjectDoesNotExist:
-            messages.error(request, "You do not have an active order")
+            messages.error(self.request, "You do not have an active order")
             return redirect('/')
 
 
