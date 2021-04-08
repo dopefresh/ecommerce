@@ -52,13 +52,6 @@ class CheckoutView(LoginRequiredMixin, View):
                     country=country,
                     zip=zip
                 )
-                try:
-    address = normalize_address({
-    'country_code': 'US',
-    'country_area': 'California',
-    'city': 'Mountain View',
-    'postal_code': '94043',
-    'street_address': '1600 Amphitheatre Pkwy'})
                 billing_address.save()
                 order.billing_address = billing_address
                 order.save()
