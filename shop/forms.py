@@ -3,6 +3,7 @@ from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 
 
+
 PAYMENT_CHOICES = (
     ('S', "Stripe"),
     ('P', "Paypal")
@@ -10,7 +11,7 @@ PAYMENT_CHOICES = (
 
 
 class CheckoutForm(forms.Form):
-    street_address = forms.CharField(widget=forms.TextInput(attrs={
+    """street_address = forms.CharField(widget=forms.TextInput(attrs={
         'placeholder': '1234 Main St',
         'class': 'form-control'
     }))
@@ -28,6 +29,24 @@ class CheckoutForm(forms.Form):
     same_billing_address = forms.BooleanField(required=False, widget=forms.CheckboxInput())
     save_info = forms.BooleanField(required=False, widget=forms.CheckboxInput())
     payment_option = forms.ChoiceField(widget=forms.RadioSelect(), choices=PAYMENT_CHOICES)
+    """
+
+
+    ERROR_MESSAGES = {
+        'required': 'This field is required',
+        'invalid': 'Enter a valid name'}
+
+    country = CountryField(blank_label='(select country)').formfield(widget=CountrySelectWidget())
+    zip = forms.CharField(required=True)
+    email = forms.EmailField(required=True) 
+    name = forms.CharField()
+    street1 = forms.CharField(required=False)
+    street2 = forms.CharField(required=False)
+    city = forms.CharField(required=True)
+    payment_option = forms.ChoiceField(widget=forms.RadioSelect(), choices=PAYMENT_CHOICES)
+    
+
+
 
 
 

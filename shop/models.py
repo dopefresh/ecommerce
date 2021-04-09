@@ -69,7 +69,7 @@ class Order(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
-    billing_address = models.ForeignKey('BillingAddress', on_delete=models.SET_NULL, blank=True, null=True) 
+    shipping_address = models.ForeignKey('ShippingAddress', on_delete=models.SET_NULL, blank=True, null=True) 
 
     def __str__(self):
         return self.user.username
@@ -84,7 +84,8 @@ class Order(models.Model):
         return total
 
 
-class BillingAddress(models.Model):
+"""class BillingAddress(models.Model):
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     street_address = models.CharField(max_length=255)
@@ -94,8 +95,19 @@ class BillingAddress(models.Model):
     
     def __str__(self):
         return self.user.username
+"""
 
-
+class ShippingAddress(models.Model):
+    country = CountryField(multiple=False)
+    zip = models.CharField(blank=False, null=False, max_length=15)
+    email = models.EmailField(blank=False, null=False) 
+    name = models.CharField(blank=True, null=True, max_length=30)
+    street1 = models.CharField(blank=True, null=True, max_length=100)
+    street2 = models.CharField(blank=True, null=True, max_length=100)
+    city = models.CharField(blank=False, null=False, max_length=100)
+    
+    def __str__(self):
+        return f"user: {self.user.username}, name: {self.name}, street: {self.street_address}, city: {self.city}, city_area: {self.city_area}, country: {self.country_code}, country_area: {self.country_area}, postal_code: {self.postal_code}"
 
 
 

@@ -9,10 +9,20 @@ from django.utils import timezone
 from django.db.models import F
 from allauth.account.views import LoginView, LogoutView, SignupView
 
-from i18naddress import normalize_address
+import easypost
 
 from .forms import CheckoutForm
-from .models import Item, OrderItem, Order, BillingAddress
+from .models import Item, OrderItem, Order, ShippingAddress
+
+import os
+from dotenv import load_dotenv
+
+
+dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
+
+easypost.api_key = os.environ['EASY_POST_API_KEY'] 
 
 
 class HomeView(ListView):
@@ -37,26 +47,43 @@ class CheckoutView(LoginRequiredMixin, View):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
             if form.is_valid():
-                street_address = form.cleaned_data.get('street_address')    
-                apartment_address = form.cleaned_data.get('apartment_address')
-                country = form.cleaned_data.get('country')    
-                zip = form.cleaned_data.get('zip')    
-                # TODO add functionality for these fields 
-                # same_billing_address = form.cleaned_data.get('same_billing_address')    
-                # save_info = form.cleaned_data.get('save_info')    
-                payment_option = form.cleaned_data.get('payment_option')
-                billing_address = BillingAddress(
-                    user=self.request.user,
-                    street_address=street_address,
-                    apartment_address=apartment_address,
-                    country=country,
-                    zip=zip
+                fromAddress = easypost.Address.create(
+                    company='EasyPost',
+                    street1='417 Montgomery Street',
+                    street2='5th Floor',
+                    city='San Francisco',
+                    state='CA',
+                    zip='94104',
+                    phone='415-528-7555'
                 )
-                billing_address.save()
-                order.billing_address = billing_address
-                order.save()
+                
+                toAddress = easypost.Address.create(
+                    verify=['delivery'],
+                    name=form.cleaned_data.get('name'),
+                    street1=form.cleaned_data.get('street1'),
+                    street2=form.cleaned_data.get('street2'),
+                    city=form.cleaned_data.get('city'),
+                    zip=form.cleaned_data.get('zip'),
+                    country=form.cleaned_data.get('country'),
+                    email=form.cleaned_data.get('email')
+                )
+                if toAddress.verifications.delivery.success:
+                    shipping_address = ShippingAddress(
+                        name=form.cleaned_data.get('name'),
+                        street1=form.cleaned_data.get('street1'),
+                        street2=form.cleaned_data.get('street2'),
+                        city=form.cleaned_data.get('city'),
+                        zip=form.cleaned_data.get('zip'),
+                        country=form.cleaned_data.get('country'),
+                        email=form.cleaned_data.get('email')
+                    )
+                    shipping_address.save()
+                    order.shipping_address=shipping_address
+                    order.save()
+                else:
+                    messages.warning(self.request, toAddress.verifications.delivery.errors) 
             else: 
-                messages.warning(self.request, "Failed checkout") 
+                messages.warning(self.request, "Invalid form") 
             return redirect('shop:checkout')
         
         except ObjectDoesNotExist:
