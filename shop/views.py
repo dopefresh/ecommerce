@@ -80,6 +80,7 @@ class CheckoutView(LoginRequiredMixin, View):
                     shipping_address.save()
                     order.shipping_address=shipping_address
                     order.save()
+                    return redirect('shop:payment', payment_option=form.cleaned_data.get('payment_option'))
                 else:
                     messages.warning(self.request, toAddress.verifications.delivery.errors) 
             else: 
@@ -92,8 +93,11 @@ class CheckoutView(LoginRequiredMixin, View):
 
 
 class PaymentView(LoginRequiredMixin, View):
-    def get(self, *args, **kwargs):
-        return render(self.request, 'shop/payment.html')
+    def get(self, request, payment_option):
+        context = {
+            'object': Order.objects.get(user=self.request.user, ordered=False)
+        }
+        return render(request, 'shop/paypal.html', context)
 
 
 class ProductView(DetailView):

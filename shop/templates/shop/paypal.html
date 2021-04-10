@@ -1,0 +1,30 @@
+{% extends 'shop/base.html' %}
+{% load cart_template_tags %}
+{% load crispy_forms_tags %}
+{% load mathfilters %}
+
+
+{% block content %}
+<div class="col-md-6 mb-4">
+  <script src="https://www.paypal.com/sdk/js?client-id=test"></script>
+  <script>paypal.Buttons().render('body');</script>
+</div>
+
+{% include 'shop/cart_content.html'%}
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

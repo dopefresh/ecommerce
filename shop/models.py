@@ -101,8 +101,8 @@ class ShippingAddress(models.Model):
     country = CountryField(multiple=False)
     zip = models.CharField(blank=False, null=False, max_length=15)
     email = models.EmailField(blank=False, null=False) 
-    name = models.CharField(blank=True, null=True, max_length=30)
-    street1 = models.CharField(blank=True, null=True, max_length=100)
+    name = models.CharField(blank=False, null=False, max_length=30)
+    street1 = models.CharField(blank=False, null=False, max_length=100)
     street2 = models.CharField(blank=True, null=True, max_length=100)
     city = models.CharField(blank=False, null=False, max_length=100)
     
