@@ -34,17 +34,17 @@
               {% if object.discount_price %} 
                 <span class="mr-1">
                   <del>
-                    {{ object.price }}
+                    {{ object.price }}₽
                   </del>
                 </span>
               {% endif %} 
               
               <span>
                 {% if object.discount_price %} 
-                  {{ object.discount_price }}
+                  {{ object.discount_price }}₽
                 {% else %}
                   {{ object.price }}
-                {% endif %}$
+                {% endif %}₽
               </span>
             </p>
 

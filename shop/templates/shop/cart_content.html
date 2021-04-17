@@ -3,8 +3,6 @@
 {% load mathfilters %}
 
 
-<div class="col-md-6 mb-4">
-  <!-- Cart -->
   <div class="card">
     <div class="card-body">
       <div class="table-responsive">
@@ -28,17 +26,17 @@
             <tr>
               <th scope="row">{{ forloop.counter }}</th>
               <td>{{ order_item.item.title }}</td>
-                <td>{{ order_item.item.get_price }}</td>
+                <td>{{ order_item.item.get_price }}₽</td>
                 <td>
                   {{ order_item.quantity }}
                 </td>
                 <td>
-                  {{ order_item.item.get_price|mul:order_item.quantity }}
+                  {{ order_item.item.get_price|mul:order_item.quantity }}₽
                 </td>
             </tr>
             <tr>
               <td colspan="4"><b>Order Total</b></td>
-              <td colspan="5"> {{ object.get_total_price }} </td>
+              <td colspan="5"> {{ object.get_total_price }}₽ </td>
             </tr>
           {% endfor %}
           </tbody>
@@ -47,5 +45,3 @@
     </div>
   </div>
   <!-- Cart -->
-
-</div>
