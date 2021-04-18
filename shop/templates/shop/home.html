@@ -12,51 +12,53 @@
         <div class="row wow fadeIn">
           {% for item in object_list %}
           <!--Grid column-->
-          <div class="col-lg-3 col-md-6 mb-4">
+            <div class="col-sm-3 mb-4">
 
-            <!--Card-->
-            <div class="card">
+              <!--Card-->
+                <div class="card">
 
-              <!--Card image-->
-              <div class="view overlay">
-                <img src="{{ item.image.url }}" class="card-img-top"alt="">
-                <a href="{{ item.get_absolute_url }}">
-                  <div class="mask rgba-white-slight"></div>
-                </a>
-              </div>
-              <!--Card image-->
-
-              <!--Card content-->
-              <div class="card-body text-center">
-                <!--Category & Title-->
-                <a href="" class="grey-text">
-                  <h5>{{ item.get_category_display }}</h5>
-                </a>
-                <h5>
-                  <strong>
-                    <a href="{{ item.get_absolute_url }}" class="dark-grey-text">{{ item.title }}
-                      <span class="badge badge-pill {{ item.get_label_display }}-color">NEW</span>
+                  <!--Card image-->
+                  <div class="view overlay">
+                    <a href="{{ item.get_absolute_url }}">
+                      <img src="{{ item.image.url }}" class="card-img-top"alt="">
+                        <div class="mask rgba-white-slight"></div>
                     </a>
-                  </strong>
-                </h5>
+                  </div>
+                  <!--Card image-->
 
-                <h4 class="font-weight-bold blue-text">
-                  <strong>
-                    {% if item.discount_price %} 
-                      {{ item.discount_price }}₽
-                    {% else %}
-                      {{ item.price }}₽
-                    {% endif %}
-                  </strong>
-                </h4>
+                  <!--Card content-->
+                  <div class="card-body text-center">
+                    <!--Category & Title-->
+                    <p href="" class="grey-text">
+                      <h5>{{ item.get_category_display }}</h5>
+                    </p>
+                    <h5>
+                      <strong>
+                        <a href="{{ item.get_absolute_url }}">
+                          <p class="dark-grey-text">{{ item.title }}
+                            <span class="badge badge-pill {{ item.get_label_display }}-color">NEW</span>
+                          </p>
+                        </a>
+                      </strong>
+                    </h5>
 
-              </div>
-              <!--Card content-->
+                    <h4 class="font-weight-bold blue-text">
+                      <strong>
+                        {% if item.discount_price %} 
+                          {{ item.discount_price }}₽
+                        {% else %}
+                          {{ item.price }}₽
+                        {% endif %}
+                      </strong>
+                    </h4>
+
+                  </div>
+                  <!--Card content-->
+
+                </div>
+              <!--Card-->
 
             </div>
-            <!--Card-->
-
-          </div>
           <!--Grid column-->
           {% endfor %}   
         </div>
