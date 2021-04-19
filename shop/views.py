@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, View
 from django.utils import timezone
-from django.db.models import F
+from django.db.models import F, Q
 from allauth.account.views import LoginView, LogoutView, SignupView
 
 from .models import Item, OrderItem, Order
@@ -58,33 +58,46 @@ class SearchView(ListView):
     def get_queryset(self):
         query = self.request.GET.get('q')
         if query:
-            return Item.objects.filter(title__icontains=self.request.GET.get('q'))
+            return Item.objects.filter(Q(title__icontains=self.request.GET.get('q')) | Q(category__icontains=self.request.GET.get('q')))
         else:
             return redirect('shop:home') 
 
 
 @login_required
 def add_to_cart(request, slug):
-    item = get_object_or_404(Item, slug=slug)
-    order_item, created = OrderItem.objects.get_or_create(
-        item=item,
-        user=request.user,
-        ordered=False
-    )
-    order_qs = Order.objects.filter(user=request.user, ordered=False)
-    if order_qs.exists():
-        order = order_qs[0]
-        if order.order_items.filter(item__pk=item.pk).exists():
-            order_item.quantity = F('quantity') + 1
-            order_item.save()
-            messages.info(request, f"This item quantity was updated to {order_item.quantity}")
+    if int(request.POST.get('setValue')) >= 0:
+        item = get_object_or_404(Item, slug=slug)
+        order_item, created = OrderItem.objects.get_or_create(
+            item=item,
+            user=request.user,
+            ordered=False
+        )
+        order_qs = Order.objects.filter(user=request.user, ordered=False)
+        if order_qs.exists():
+            order = order_qs[0]
+            if order.order_items.filter(item__pk=item.pk).exists():
+                if int(request.POST.get('setValue')) == 0:
+                    order.order_items.remove(order_item)
+                    order_item.delete()
+                    messages.info(request, "This item was removed from your cart")
+                else:
+                    order_item.quantity = int(request.POST.get('setValue'))
+                    order_item.save()
+                    messages.info(request, f"This item quantity was updated to {order_item.quantity}")
+            else:
+                order_item.quantity = int(request.POST.get('setValue'))
+                order_item.save()
+                order.order_items.add(order_item) 
+                messages.info(request, "This item was added to the cart")
         else:
+            order = Order.objects.create(user=request.user, ordered_date=timezone.now())
+            order_item.quantity = int(request.POST.get('setValue')) 
+            order_item.save()
             order.order_items.add(order_item)
-            messages.info(request, "This item was added to the cart")
+            messages.info(request, "This item was added to your cart")
     else:
-        order = Order.objects.create(user=request.user, ordered_date=timezone.now())
-        order.order_items.add(order_item)
-        messages.info(request, "This item was added to your cart")
+        messages.info(request, "Some error")
+        
     return redirect('shop:cart')
 
 

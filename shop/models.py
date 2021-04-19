@@ -9,6 +9,15 @@ CATEGORY_CHOICES = (
     ('SW', 'Sport wear'),
     ('OW', 'Outwear'),
     ('CPU', 'CPU'),
+    ('GPU', 'GPU'),
+    ('MOTHERBOARD', 'Motherboard'),
+    ('SNEAKERS', 'Sneakers'),
+    ('POWER_SUPPLY', 'Power supply'),
+    ('SSD', 'SSD'),
+    ('HDD', 'HDD'),
+    ('RAM', 'Ram'),
+    ('BODY', 'Body'),
+    ('COOL', 'Coolers')
 )
 
 LABEL_CHOICES = (
@@ -24,8 +33,8 @@ class Item(models.Model):
     price = models.FloatField()
     discount_price = models.FloatField(blank=True, null=True) 
     description = models.TextField(default="")
-    category = models.CharField(choices=CATEGORY_CHOICES, max_length=10) 
-    label = models.CharField(choices=LABEL_CHOICES, max_length=10)
+    category = models.CharField(choices=CATEGORY_CHOICES, max_length=30) 
+    label = models.CharField(choices=LABEL_CHOICES, max_length=20)
     slug = models.SlugField()
 
     def __str__(self):
