@@ -22,6 +22,18 @@
       </ul>
       <!-- Right -->
       <ul class="navbar-nav nav-flex-icons">
+        <li class="nav-item"> 
+          <form action="{% url 'shop:search' %}" method="get">
+            <div class="input-group">
+              <div class="form-outline">
+                <input name="q" type="text" value="{{ request.GET.q }}" id="form1" class="form-control"/>
+                <label class="form-label" for="form1">Search</label>
+              </div>
+              <button type="submit" class="btn btn-outline-primary">Search</button>
+            </div>
+          </form>
+        </li>
+
         {% if request.user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link waves-effect" href="{% url "shop:cart" %}">

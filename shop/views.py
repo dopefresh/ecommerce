@@ -51,6 +51,18 @@ class CartView(LoginRequiredMixin, View):
             return redirect('/')
 
 
+class SearchView(ListView):
+    model = Item
+    template_name="shop/search.html"
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Item.objects.filter(title__icontains=self.request.GET.get('q'))
+        else:
+            return redirect('shop:home') 
+
+
 @login_required
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
