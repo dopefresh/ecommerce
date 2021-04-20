@@ -51,17 +51,22 @@
             <p class="lead font-weight-bold">{{ object.description }}</p>
 
 
-            <div class="d-flex justify-content-left">
               <!-- Default input -->
-              <form method="POST" action="{{ object.get_add_to_cart_url }}">
-                {% csrf_token %}
-                <input name="setValue" type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
-                <button type="submit" class="btn btn-primary btn-sm my-0 p">Add to cart
-                  <i class="fas fa-shopping-cart ml-1"></i>
-                </button>
-              </form>
-              <a class="btn btn-danger btn-sm my-0 p" href="{{ object.get_remove_from_cart_url }}">Remove from cart</a>
-            </div>
+                <form method="POST" action="{{ object.get_add_to_cart_url }}">
+                  {% csrf_token %}
+                  <div class="d-flex flex-row flex-nowrap justify-content-left pb-0">
+                    <div class="mt-2 mr-0 p-0">
+                      <div class="d-flex flex-row-reverse justify-content-right">
+                        <input name="setValue" type="number" value="1" aria-label="Search" class="form-control w-50" style="width: 70%; height: 40%"> 
+                      </div>
+                    </div>
+                    <div>
+                      <button type="submit" class="btn btn-primary btn-sm ml-0" style="width: 100%">Add to cart
+                        <i class="fas fa-shopping-cart ml-1"></i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
 
           </div>
           <!--Content-->
