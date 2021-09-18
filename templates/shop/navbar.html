@@ -1,0 +1,80 @@
+{% load i18n %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Navbar</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/geedmo/yamm@4.0.0/dist/yamm.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container mb-5">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'shop:category' %}">Ecommerce</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="form-inline my-2 my-lg-0 mr-auto" method="POST" action="{% url 'shop:search' %}">
+                {% csrf_token %}
+                <input
+                  class="form-control mr-sm-2"
+                  id="search"
+                  name="search"
+                  type="search"
+                  placeholder="{% trans 'Search' %}"
+                  aria-label="{% trans 'Search' %}"
+                />
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                  {% trans 'Search' %}
+                </button>
+            </form>
+          <div class="ml-auto">
+            {% if request.user.is_authenticated %}
+            <a class="nav-item mr-2" href="{% url 'shop:cart' %}">{% trans 'Cart' %}</a>
+            <a class="nav-item mr-2" href="{% url 'account_logout' %}">{% trans 'Log Out' %}</a>
+            {% else %}
+            <a class="nav-item mr-2" href="{% url 'account_signup' %}"
+                                     >{% trans 'Sign Up' %}</a
+            >
+            <a class="nav-item mr-2" href="{% url 'account_login' %}">{% trans 'Login' %}</a>
+            {% endif %}
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

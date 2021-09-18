@@ -1,0 +1,30 @@
+{% extends "shop/base.html" %} {% load i18n %} {% block head_title %} {% trans
+'Subcategories' %} {% endblock head_title %} {% block content %}
+<div class="container">
+  <div class="row mb-3">
+    {% for subcategory in subcategories %}
+    <div class="col mb-3">
+      <div class="card" style="width: 18rem">
+        <img
+          src="{{ subcategory.image.url }}"
+          width="200px"
+          height="200px"
+          class="card-img-top"
+          alt="..."
+        />
+        <div class="card-body">
+          <p class="card-text">{{ subcategory.title }}</p>
+        </div>
+        <a
+          class="btn btn-primary"
+          style="width: 100%"
+          href="{% url 'shop:products' subcategory.slug %}"
+        >
+          {% trans "Goods" %}
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}

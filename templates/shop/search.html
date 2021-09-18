@@ -1,0 +1,65 @@
+{% extends 'shop/base.html' %} {% load i18n %} {% block head_title %} {% trans
+'Products' %} {% endblock head_title %} {% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">Product filters</div>
+    <div class="col-sm-8">
+      {% for item in items %}
+      <div class="card mb-3">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src="{{ item.image.url }}" class="card-img" alt="..." />
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{ item.title }}</h5>
+              <p class="card-text">{{ item.description|truncatechars:200 }}</p>
+              <div class="row ml-auto">
+                <div class="col-md-6">
+                  <div
+                    class="d-flex justify-content-center align-items-center"
+                    style="height: 100%"
+                  >
+                    {{ item.price }}₽
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <button
+                    class="btn btn-primary"
+                    onclick="addToCart('{{ item.slug }}')"
+                    role="button"
+                  >
+                    Add to cart
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<script>
+  async function addToCart(slug) {
+    console.log(slug);
+    let base_url = "http://127.0.0.1:8000";
+    let csrfToken = Cookies.get("csrftoken");
+    let response = await axios.post(
+      base_url + "/ajax_add_to_cart/",
+      {
+        slug: slug,
+        withCredentials: true,
+      },
+      {
+        headers: {
+          "X-CSRFToken": csrfToken,
+        },
+      }
+    );
+    console.log(response);
+  }
+</script>
+
+{% endblock %}

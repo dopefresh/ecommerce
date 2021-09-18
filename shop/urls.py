@@ -1,26 +1,22 @@
 from django.urls import path
+from django.conf import settings
 
 from . import views
 
-app_name='shop'
+app_name = 'shop'
 
 urlpatterns = [
-    path('', views.HomeView.as_view(), name='home'),
+    path('', views.CategoryView.as_view(), name='category'),
+    path('category/<str:slug>/', views.SubCategoryView.as_view(), name='subcategory'),
+    path('subcategory/<str:slug>/', views.ProductsView.as_view(), name='products'),
     path('checkout/', views.CheckoutView.as_view(), name='checkout'),
     path('product/<slug>/', views.ProductView.as_view(), name='product'),
     path('cart/', views.CartView.as_view(), name='cart'),
-    path('add_to_cart/<slug>/', views.add_to_cart, name='add_to_cart'),
-    path('remove_from_cart/<slug>/', views.remove_from_cart, name='remove_from_cart'),
-    path('remove_single_item_from_cart/<slug>', views.remove_single_item_from_cart,name='remove_single_item_from_cart'),
-    path('search/', views.SearchView.as_view(), name='search'),
+    path('ajax_add_to_cart/',
+         views.ajax_add_to_cart, name='ajax_add_to_cart'),
+    path('ajax_edit_cart/', views.ajax_edit_cart, name='ajax_edit_cart'),
+    path('ajax_remove_from_cart/',
+         views.ajax_remove_from_cart,
+         name='ajax_remove_from_cart'),
+    path('search/', views.search_view, name='search'),
 ]
-
-
-
-
-
-
-
-
-
-
