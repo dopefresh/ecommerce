@@ -3,7 +3,6 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Navbar</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/geedmo/yamm@4.0.0/dist/yamm.min.css"
@@ -18,7 +17,32 @@
   <body>
     <div class="container mb-5">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{% url 'shop:category' %}">Ecommerce</a>
+        {% get_current_language as LANGUAGE_CODE %}
+        {% if LANGUAGE_CODE == 'ru' %}
+            <form action="{% url 'set_language' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="language" value="ru">
+                <button class="btn btn-primary" type="submit" id="language-ru">ru</button>
+            </form>
+            <form action="{% url 'set_language' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="language" value="en">
+                <button class="btn" type="submit" id="language-en">en</button>  
+            </form>
+        {% else %}
+
+            <form action="{% url 'set_language' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="language" value="ru">
+                <button class="btn" type="submit" id="language-ru">ru</button>
+            </form>
+            <form action="{% url 'set_language' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="language" value="en">
+                <button class="btn btn-primary" type="submit" id="language-en">en</button>  
+            </form>
+        {% endif %}
+        <a class="navbar-brand ml-2" href="{% url 'shop:category' %}">Ecommerce</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -39,28 +63,56 @@
                   id="search"
                   name="search"
                   type="search"
-                  placeholder="{% trans 'Search' %}"
-                  aria-label="{% trans 'Search' %}"
+                  placeholder="{% translate 'Search' %}"
+                  aria-label="{% translate 'Search' %}"
                 />
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                  {% trans 'Search' %}
+                  {% translate 'Search' %}
                 </button>
             </form>
           <div class="ml-auto">
             {% if request.user.is_authenticated %}
-            <a class="nav-item mr-2" href="{% url 'shop:cart' %}">{% trans 'Cart' %}</a>
-            <a class="nav-item mr-2" href="{% url 'account_logout' %}">{% trans 'Log Out' %}</a>
+            <a class="nav-item mr-2" href="{% url 'shop:cart' %}">{% translate 'Cart' %}</a>
+            <a class="nav-item mr-2" href="{% url 'account_logout' %}">{% translate 'Log Out' %}</a>
             {% else %}
             <a class="nav-item mr-2" href="{% url 'account_signup' %}"
-                                     >{% trans 'Sign Up' %}</a
+                                     >{% translate 'Sign Up' %}</a
             >
-            <a class="nav-item mr-2" href="{% url 'account_login' %}">{% trans 'Login' %}</a>
+            <a class="nav-item mr-2" href="{% url 'account_login' %}">{% translate 'Login' %}</a>
             {% endif %}
           </div>
         </div>
       </nav>
     </div>
+    <script>
+        async function changeLanguageEng() { 
+            let base_url = "http://127.0.0.1:8000";
+            let csrfToken = Cookies.get('csrftoken');
+            let response = await axios.post(base_url + '/i18n/setlang/', {
+                language: 'en',
+            }, {
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
+                withCredentials: true,
+            });
+            location.reload();
+        }
 
+        async function changeLanguageRu() {
+            let base_url = "http://127.0.0.1:8000";
+            let csrfToken = Cookies.get('csrftoken');
+            let response = await axios.post(base_url + '/i18n/setlang/', {
+                language: 'ru',
+            }, {
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
+                withCredentials: true,
+            });
+            location.reload();
+        }
+    </script>
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

@@ -53,6 +53,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -125,8 +126,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 # Languages And Timezone
-LANGUAGE_CODE = 'ru'
 
+LANGUAGE_CODE = 'ru'
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -178,7 +179,7 @@ else:
         'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     )
 
-    # CRISPY FORMS
+# CRISPY FORMS
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 logger.add("info.log", format="{time} {level} {message}",

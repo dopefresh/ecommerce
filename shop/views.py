@@ -31,10 +31,9 @@ class SubCategoryView(ListView):
     ordering = ('title',)
 
     def get_queryset(self):
-        logger.info(self.kwargs)
         subcategories = SubCategory.objects.filter(
-            category__slug=self.kwargs.get('slug'))
-        logger.info(subcategories)
+            category__slug=self.kwargs.get('slug')
+        ).order_by('title')
         return subcategories
 
 
@@ -48,14 +47,16 @@ class ProductsView(ListView):
     def get_queryset(self):
         items = Item.objects.filter(
             sub_category__slug=self.kwargs.get('slug'),
-        )
+        ).order_by('price', 'title')
         return items
 
 
 class CheckoutView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         try:
-            order = Order.objects.get(user=self.request.user, ordered=False)
+            order = Order.objects.prefetch_related('order_items').get(
+                user=self.request.user, ordered=False, shipped=False
+            )
             context = {'object': order}
             return render(self.request, "shop/checkout.html", context)
         except:
@@ -75,7 +76,7 @@ class ProductView(DetailView):
 class CartView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         try:
-            order = Order.objects.get(
+            order = Order.objects.prefetch_related('order_items').get(
                 user=self.request.user, ordered=False, shipped=False
             )
             context = {'object': order}
@@ -115,7 +116,7 @@ def ajax_remove_from_cart(request):
     slug = event_json.get('slug')
     try:
         item = Item.objects.get(slug=slug)
-    except:
+    except Item.objects.DoesNotExist:
         return JsonResponse({'error': _("This item doesn't exist")}, status=400)
 
     try:
