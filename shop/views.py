@@ -52,6 +52,8 @@ class ProductsView(ListView):
 
 
 class CheckoutView(LoginRequiredMixin, View):
+    model = Order
+
     def get(self, *args, **kwargs):
         try:
             order = Order.objects.prefetch_related('order_items').get(
@@ -59,9 +61,10 @@ class CheckoutView(LoginRequiredMixin, View):
             )
             context = {'object': order}
             return render(self.request, "shop/checkout.html", context)
-        except:
-            messages.error(self.request, "You do not have an active order")
-            return redirect('shop:home')
+        except Exception as e:
+            logger.info(str(e))
+            messages.error(self.request, _("You do not have an active order"))
+            return redirect('shop:category')
 
 
 class ProductView(DetailView):
@@ -139,7 +142,9 @@ def ajax_remove_from_cart(request):
 
 @login_required
 def ajax_edit_cart(request):
+    logger.info('Function begin')
     posted_data = json.loads(request.body)
+    logger.info('Parsed request body')
     slug = posted_data.get('slug')
     quantity = posted_data.get('quantity')
     try:

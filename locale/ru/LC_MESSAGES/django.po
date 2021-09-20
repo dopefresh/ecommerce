@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-20 08:00+0000\n"
+"POT-Creation-Date: 2021-09-20 10:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,10 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: accounts/forms.py:13 accounts/models.py:51
+msgid "city"
+msgstr "город"
 
 #: accounts/managers.py:16
 msgid "The Email must be set"
@@ -55,10 +59,6 @@ msgstr "Роль пользователя"
 msgid "email address"
 msgstr "email адрес"
 
-#: accounts/models.py:51
-msgid "city"
-msgstr "город"
-
 #: accounts/models.py:58
 msgid "User"
 msgstr "Пользователь"
@@ -68,7 +68,6 @@ msgid "Users"
 msgstr "Пользователи"
 
 #: accounts/models.py:75 shop/models.py:149
-#| msgid "Company"
 msgid "company"
 msgstr "компания"
 
@@ -88,11 +87,11 @@ msgstr "Сотрудники компании"
 msgid "Company employee"
 msgstr "сотрудник компании"
 
-#: ecommerce/settings.py:145
+#: ecommerce/settings.py:144
 msgid "Russian"
 msgstr "Русский"
 
-#: ecommerce/settings.py:146
+#: ecommerce/settings.py:145
 msgid "English"
 msgstr "English"
 
@@ -1933,19 +1932,15 @@ msgstr "Итого"
 msgid "Your cart is empty"
 msgstr "Ваша корзина пуста"
 
-#: templates/shop/cart.html:63
-msgid "Continue Shopping"
-msgstr "Продолжить закупку"
-
-#: templates/shop/cart.html:69
+#: templates/shop/cart.html:60
 msgid "Total of all"
 msgstr "Сумма"
 
-#: templates/shop/cart.html:77
+#: templates/shop/cart.html:68
 msgid "Go to payment page"
 msgstr "На страницу оплаты"
 
-#: templates/shop/cart.html:82
+#: templates/shop/cart.html:73
 msgid "Go to Home"
 msgstr "На главную"
 
@@ -1989,3 +1984,6 @@ msgstr "Войти"
 #: templates/shop/subcategory.html:23
 msgid "Goods"
 msgstr "Товары"
+
+#~ msgid "Continue Shopping"
+#~ msgstr "Продолжить закупку"

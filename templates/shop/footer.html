@@ -1,84 +1,38 @@
 {% load i18n %} {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/geedmo/yamm@4.0.0/dist/yamm.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body>
-    <footer class="page-footer font-small bg-secondary pt-4 mt-5">
-      <div class="container text-center">
+<footer class="page-footer bg-secondary pt-4 mt-5">
+    <div class="container text-center">
         <div class="row">
-          <hr class="clearfix w-100 d-md-none pb-3" />
-
-          <div class="col-md-6 mb-md-0 mb-3">
-            <h5 class="text-danger">{% trans 'Links' %}</h5>
-
-            <ul class="list-unstyled">
-              <li>
-                <a
-                  href="https://astrakhan.hh.ru/applicant/resumes/view?resume=a682bb1fff0923047b0039ed1f6a536e4f3659"
-                  class="link-primary"
-                  target="_blank"
-                  >{% trans 'resume' %}</a
-                >
-              </li>
-              <li>
-                <a
-                  href="https://github.com/dopefresh"
-                  target="_blank"
-                  class="link-primary"
-                  >{% trans 'github profile' %}</a
-                >
-              </li>
-            </ul>
-          </div>
-
-          <div class="col-md-6 mb-md-0 mb-3">
-            <h5 class="text-success">{% trans 'List of technologies' %}</h5>
-
-            <ul class="list-unstyled">
-              <li>
-                <p class="text-white">Django</p>
-              </li>
-              <li>
-                <p class="text-white">Gunicorn</p>
-              </li>
-              <li>
-                <p class="text-white">Nginx</p>
-              </li>
-              <li>
-                <p class="text-white">PostgreSQL</p>
-              </li>
-              <li>
-                <p class="text-white">Bootstrap</p>
-              </li>
-              <li>
-                <p class="text-white">Celery({% trans 'Barely used' %})</p>
-              </li>
-              <li>
-                <p class="text-white">JavaScript</p>
-              </li>
-            </ul>
-          </div>
+            <div class="col-md-6">
+                <ul class="list-unstyled">
+                    <li>
+                        <a
+                                href="https://astrakhan.hh.ru/applicant/resumes/view?resume=a682bb1fff0923047b0039ed1f6a536e4f3659"
+                                class="text-white"
+                                target="_blank"
+                        >{% trans 'resume' %}</a
+                        >
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <ul class="list-unstyled">
+                    <li>
+                        <a
+                                href="https://github.com/dopefresh"
+                                target="_blank"
+                                class="text-white"
+                        >{% trans 'github profile' %}</a
+                        >
+                </ul>
+                </li>
+            </div>
         </div>
-      </div>
+    </div>
 
-      <div class="footer-copyright text-center py-3 bg-dark">
+    <div class="text-center py-3 bg-dark">
         <a href="https://mdbootstrap.com/" class="text-white">
-          MDBootstrap.com</a
+            MDBootstrap.com</a
         >
-      </div>
-    </footer>
-  </body>
-</html>
+    </div>
+</footer>

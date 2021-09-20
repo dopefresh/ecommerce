@@ -169,15 +169,11 @@ LOGOUT_REDIRECT_URL = '/'
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 if DEBUG:
     STATIC_DIR = os.path.join(BASE_DIR, 'static')
-    STATICFILES_DIRS = [
-        STATIC_DIR,
-        '/var/www/static/',
-    ]
 else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
     STATICFILES_FINDERS = (
         'django.contrib.staticfiles.finders.FileSystemFinder',
         'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -206,3 +202,7 @@ EMAIL_HOST_USER = config('EMAIL_ADDRESS')
 EMAIL_HOST_PASSWORD = config('EMAIL_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+# CSS error
+import mimetypes
+mimetypes.add_type("text/css", ".css", True)
