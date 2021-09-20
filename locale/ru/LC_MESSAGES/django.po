@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-19 15:43+0000\n"
+"POT-Creation-Date: 2021-09-20 08:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,35 +55,44 @@ msgstr "Роль пользователя"
 msgid "email address"
 msgstr "email адрес"
 
-#: accounts/models.py:57
+#: accounts/models.py:51
+msgid "city"
+msgstr "город"
+
+#: accounts/models.py:58
 msgid "User"
 msgstr "Пользователь"
 
-#: accounts/models.py:58
+#: accounts/models.py:59
 msgid "Users"
 msgstr "Пользователи"
 
-#: accounts/models.py:76
+#: accounts/models.py:75 shop/models.py:149
+#| msgid "Company"
+msgid "company"
+msgstr "компания"
+
+#: accounts/models.py:78
 msgid "phone number"
 msgstr "Номер телефона"
 
-#: accounts/models.py:81
+#: accounts/models.py:83
 msgid "photo"
 msgstr "фото"
 
-#: accounts/models.py:88
+#: accounts/models.py:90
 msgid "Company employees"
 msgstr "Сотрудники компании"
 
-#: accounts/models.py:89
+#: accounts/models.py:91
 msgid "Company employee"
 msgstr "сотрудник компании"
 
-#: ecommerce/settings.py:136
+#: ecommerce/settings.py:145
 msgid "Russian"
 msgstr "Русский"
 
-#: ecommerce/settings.py:137
+#: ecommerce/settings.py:146
 msgid "English"
 msgstr "English"
 
@@ -151,8 +159,6 @@ msgid "Enter a valid integer."
 msgstr "Введите число"
 
 #: env/lib/python3.8/site-packages/django/core/validators.py:161
-#, fuzzy
-#| msgid "email address"
 msgid "Enter a valid email address."
 msgstr "email адрес"
 
@@ -232,8 +238,6 @@ msgstr[3] ""
 #: env/lib/python3.8/site-packages/django/core/validators.py:432
 #: env/lib/python3.8/site-packages/django/forms/fields.py:292
 #: env/lib/python3.8/site-packages/django/forms/fields.py:327
-#, fuzzy
-#| msgid "phone number"
 msgid "Enter a number."
 msgstr "Номер телефона"
 
@@ -384,10 +388,8 @@ msgid "“%(value)s” value must be a decimal number."
 msgstr ""
 
 #: env/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1446
-#, fuzzy
-#| msgid "phone number"
 msgid "Decimal number"
-msgstr "Номер телефона"
+msgstr "Десятичное число"
 
 #: env/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1585
 #, python-format
@@ -401,8 +403,6 @@ msgid "Duration"
 msgstr ""
 
 #: env/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1638
-#, fuzzy
-#| msgid "email address"
 msgid "Email address"
 msgstr "email адрес"
 
@@ -416,10 +416,8 @@ msgid "“%(value)s” value must be a float."
 msgstr ""
 
 #: env/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1729
-#, fuzzy
-#| msgid "phone number"
 msgid "Floating point number"
-msgstr "Номер телефона"
+msgstr "Число с плавающей точкой"
 
 #: env/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1767
 #, python-format
@@ -439,22 +437,18 @@ msgid "Small integer"
 msgstr ""
 
 #: env/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1875
-#, fuzzy
-#| msgid "email address"
 msgid "IPv4 address"
-msgstr "email адрес"
+msgstr "IPv4 адрес"
 
 #: env/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1906
-#, fuzzy
-#| msgid "email address"
 msgid "IP address"
-msgstr "email адрес"
+msgstr "IP адрес"
 
 #: env/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1986
 #: env/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1987
 #, python-format
 msgid "“%(value)s” value must be either None, True or False."
-msgstr ""
+msgstr "“%(value)s” должны быть либо True, либо False"
 
 #: env/lib/python3.8/site-packages/django/db/models/fields/__init__.py:1989
 msgid "Boolean (Either True, False or None)"
@@ -566,8 +560,6 @@ msgid ":?.!"
 msgstr ""
 
 #: env/lib/python3.8/site-packages/django/forms/fields.py:247
-#, fuzzy
-#| msgid "phone number"
 msgid "Enter a whole number."
 msgstr "Номер телефона"
 
@@ -855,77 +847,73 @@ msgstr ""
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:10
 msgid "Mon"
-msgstr ""
+msgstr "пон"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:10
 msgid "Tue"
-msgstr ""
+msgstr "вт"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:10
 msgid "Wed"
-msgstr ""
+msgstr "ср"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:10
 msgid "Thu"
-msgstr ""
+msgstr "чет"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:10
 msgid "Fri"
-msgstr ""
+msgstr "пят"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:11
 msgid "Sat"
-msgstr ""
+msgstr "суб"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:11
 msgid "Sun"
-msgstr ""
+msgstr "вс"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:14
 msgid "January"
-msgstr ""
+msgstr "Январь"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:14
 msgid "February"
-msgstr ""
+msgstr "Февраль"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:14
-#, fuzzy
-#| msgid "Search"
 msgid "March"
-msgstr "Найти"
+msgstr "Март"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:14
 msgid "April"
-msgstr ""
+msgstr "Апрель"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:14
 msgid "May"
-msgstr ""
+msgstr "Май"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:14
 msgid "June"
-msgstr ""
+msgstr "Июнь"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:15
 msgid "July"
-msgstr ""
+msgstr "Июль"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:15
 msgid "August"
-msgstr ""
+msgstr "Август"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:15
 msgid "September"
-msgstr ""
+msgstr "Сентябрь"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:15
 msgid "October"
-msgstr ""
+msgstr "Октябрь"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:15
-#, fuzzy
-#| msgid "Number"
 msgid "November"
 msgstr "Ноябрь"
 
@@ -950,8 +938,6 @@ msgid "apr"
 msgstr "апр"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:19
-#, fuzzy
-#| msgid "Company employee"
 msgid "may"
 msgstr "май"
 
@@ -965,25 +951,23 @@ msgstr "июль"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:20
 msgid "aug"
-msgstr ""
+msgstr "авг"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:20
 msgid "sep"
-msgstr ""
+msgstr "сен"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:20
-#, fuzzy
-#| msgid "Product"
 msgid "oct"
-msgstr "Товар"
+msgstr "окт"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:20
 msgid "nov"
-msgstr ""
+msgstr "ноя"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:20
 msgid "dec"
-msgstr ""
+msgstr "дек"
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:23
 msgctxt "abbrev. month"
@@ -996,11 +980,9 @@ msgid "Feb."
 msgstr ""
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:25
-#, fuzzy
-#| msgid "Search"
 msgctxt "abbrev. month"
 msgid "March"
-msgstr "Найти"
+msgstr ""
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:26
 msgctxt "abbrev. month"
@@ -1058,11 +1040,9 @@ msgid "February"
 msgstr ""
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:39
-#, fuzzy
-#| msgid "Search"
 msgctxt "alt. month"
 msgid "March"
-msgstr "Найти"
+msgstr ""
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:40
 msgctxt "alt. month"
@@ -1100,11 +1080,9 @@ msgid "October"
 msgstr ""
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:47
-#, fuzzy
-#| msgid "Number"
 msgctxt "alt. month"
 msgid "November"
-msgstr "Номер"
+msgstr ""
 
 #: env/lib/python3.8/site-packages/django/utils/dates.py:48
 msgctxt "alt. month"
@@ -1122,7 +1100,6 @@ msgid "%(truncated_text)s…"
 msgstr ""
 
 #: env/lib/python3.8/site-packages/django/utils/text.py:240
-#: templates/allauth/account/login.html:30
 msgid "or"
 msgstr "или"
 
@@ -1369,46 +1346,32 @@ msgid "Unable to connect to qpid with SASL mechanism %s"
 msgstr ""
 
 #: shop/models.py:30
-#, fuzzy
-#| msgid "Company employee"
 msgid "Company name"
-msgstr "сотрудник компании"
+msgstr "Название компании"
 
 #: shop/models.py:34
-#, fuzzy
-#| msgid "Company employee"
 msgid "Company location"
-msgstr "сотрудник компании"
+msgstr "Местоположение компании"
 
 #: shop/models.py:37
-#, fuzzy
-#| msgid "phone number"
 msgid "Company phone number"
-msgstr "Номер телефона"
+msgstr "Номер телефона компании"
 
 #: shop/models.py:40
-#, fuzzy
-#| msgid "Company employee"
 msgid "Company logo"
-msgstr "сотрудник компании"
+msgstr "Логотип компании"
 
 #: shop/models.py:47
-#, fuzzy
-#| msgid "Company employee"
 msgid "Company"
-msgstr "сотрудник компании"
+msgstr "Компания"
 
 #: shop/models.py:48
-#, fuzzy
-#| msgid "Company employees"
 msgid "Companies"
-msgstr "Сотрудники компании"
+msgstr "Компании"
 
 #: shop/models.py:64
-#, fuzzy
-#| msgid "City name"
 msgid "Category name"
-msgstr "Имя города"
+msgstr "Название категории"
 
 #: shop/models.py:67
 msgid "Category image"
@@ -1426,69 +1389,89 @@ msgstr "Категории"
 msgid "Subcategory name"
 msgstr "Название подкатегории"
 
-#: shop/models.py:98
+#: shop/models.py:97 shop/models.py:145
+#, fuzzy
+#| msgid "Category"
+msgid "category"
+msgstr "Категория"
+
+#: shop/models.py:99
 msgid "Subcategory image"
 msgstr "Фото подкатегории"
 
-#: shop/models.py:105
+#: shop/models.py:106
 msgid "Subcategory"
 msgstr "Подкатегория"
 
-#: shop/models.py:106
+#: shop/models.py:107
 msgid "Subcategories"
 msgstr "Подкатегории"
 
-#: shop/models.py:122
+#: shop/models.py:123
 msgid "Product title"
-msgstr "Название товары"
+msgstr "Название товара"
 
-#: shop/models.py:128
+#: shop/models.py:129
 msgid "Product description"
 msgstr "Описание товара"
 
-#: shop/models.py:131
+#: shop/models.py:132
 msgid "Product price"
 msgstr "Цена товара"
 
-#: shop/models.py:134
+#: shop/models.py:135
 msgid "Product image"
 msgstr "Фото товара"
 
-#: shop/models.py:150
+#: shop/models.py:153
 msgid "Product"
 msgstr "Товар"
 
-#: shop/models.py:151 templates/shop/items.html:4
+#: shop/models.py:154 templates/shop/items.html:4
 msgid "Products"
 msgstr "Товары"
 
-#: shop/models.py:167
+#: shop/models.py:170
 msgid "Quantity of item in order"
 msgstr "Количество товара в заказе"
 
-#: shop/models.py:193
+#: shop/models.py:173
+msgid "item"
+msgstr ""
+
+#: shop/models.py:177 shop/models.py:253
+msgid "order"
+msgstr "заказ"
+
+#: shop/models.py:198
 msgid "Is it ordered by user"
 msgstr "Заказано ли пользователем"
 
-#: shop/models.py:196
+#: shop/models.py:201
 msgid "Is order shipped"
 msgstr "Доставлен ли заказ"
 
-#: shop/models.py:199
+#: shop/models.py:204
 msgid "Date when ordered"
 msgstr "Дата заказа"
 
-#: shop/models.py:229
-#, fuzzy
-#| msgid "City name"
-msgid "Step name"
-msgstr "Имя города"
+#: shop/models.py:210
+msgid "user"
+msgstr "пользователь"
 
-#: shop/models.py:245
+#: shop/models.py:235
+msgid "Step name"
+msgstr "Название шага"
+
+#: shop/models.py:250
+msgid "step"
+msgstr "шаг"
+
+#: shop/models.py:255
 msgid "Date step began"
 msgstr "Дата начала процесса"
 
-#: shop/models.py:249
+#: shop/models.py:259
 msgid "Date step ended"
 msgstr "Дата окончания процесса"
 
@@ -1627,28 +1610,41 @@ msgid ""
 msgstr ""
 
 #: templates/allauth/account/login.html:6
-#: templates/allauth/account/login.html:15
-#: templates/allauth/account/login.html:48
+#: templates/allauth/account/login.html:10
+#: templates/allauth/account/login.html:44
 msgid "Sign In"
 msgstr "Войти"
 
-#: templates/allauth/account/login.html:20
-#, python-format
+#: templates/allauth/account/login.html:15
+#, fuzzy, python-format
+#| msgid ""
+#| "Please sign in with one\n"
+#| "of your existing third party accounts. Or, <a href=\"%(signup_url)s"
+#| "\">sign up</a>\n"
+#| "for a %(site_name)s account and sign in below:"
 msgid ""
 "Please sign in with one\n"
-"          of your existing third party accounts. Or, <a href=\"%(signup_url)s"
-"\">sign up</a>\n"
-"          for a %(site_name)s account and sign in below:"
+"  of your existing third party accounts. \n"
+"  </p>\n"
+"  <p>Or, <a href=\"%(signup_url)s\">sign up</a>\n"
+"  for a %(site_name)s account and sign in below:"
 msgstr ""
+"Пожалуйста войдите с одним\n"
+" из ваших сторонних аккаунтов или <a href=\"%(signup_url)s"
 
-#: templates/allauth/account/login.html:37
-#, python-format
+#: templates/allauth/account/login.html:33
+#, fuzzy, python-format
+#| msgid ""
+#| "If you have not created an account yet, then please\n"
+#| "<a href=\"%(signup_url)s\">sign up</a> first."
 msgid ""
 "If you have not created an account yet, then please\n"
-"          <a href=\"%(signup_url)s\">sign up</a> first."
+"  <a href=\"%(signup_url)s\">sign up</a> first."
 msgstr ""
+"Если вы ещё не создавали аккаунт, то <a href=\"%(signup_url)s"
+"\">Зарегистрируйтесь</a> сначала."
 
-#: templates/allauth/account/login.html:47
+#: templates/allauth/account/login.html:43
 #: templates/allauth/account/password_change.html:14
 msgid "Forgot Password?"
 msgstr "Забыли пароль?"
@@ -1759,32 +1755,32 @@ msgstr ""
 
 #: templates/allauth/account/password_reset_from_key.html:17
 msgid "change password"
-msgstr ""
+msgstr "поменять пароль"
 
 #: templates/allauth/account/password_reset_from_key.html:20
 #: templates/allauth/account/password_reset_from_key_done.html:8
 msgid "Your password is now changed."
-msgstr ""
+msgstr "Вы сменили пароль"
 
 #: templates/allauth/account/password_set.html:5
 #: templates/allauth/account/password_set.html:8
 #: templates/allauth/account/password_set.html:13
 msgid "Set Password"
-msgstr ""
+msgstr "Поменять пароль"
 
-#: templates/allauth/account/signup.html:5
-#: templates/allauth/socialaccount/signup.html:5
+#: templates/allauth/account/signup.html:6
+#: templates/allauth/socialaccount/signup.html:6
 msgid "Signup"
-msgstr ""
-
-#: templates/allauth/account/signup.html:8
-#: templates/allauth/account/signup.html:18
-#: templates/allauth/socialaccount/signup.html:8
-#: templates/allauth/socialaccount/signup.html:19 templates/shop/navbar.html:79
-msgid "Sign Up"
-msgstr ""
+msgstr "Регистрация"
 
 #: templates/allauth/account/signup.html:10
+#: templates/allauth/account/signup.html:18
+#: templates/allauth/socialaccount/signup.html:9
+#: templates/allauth/socialaccount/signup.html:20 templates/shop/navbar.html:79
+msgid "Sign Up"
+msgstr "Зарегистрироваться"
+
+#: templates/allauth/account/signup.html:11
 #, python-format
 msgid ""
 "Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
@@ -1793,15 +1789,15 @@ msgstr ""
 #: templates/allauth/account/signup_closed.html:5
 #: templates/allauth/account/signup_closed.html:8
 msgid "Sign Up Closed"
-msgstr ""
+msgstr "Регистрация закрыта"
 
 #: templates/allauth/account/signup_closed.html:10
 msgid "We are sorry, but the sign up is currently closed."
-msgstr ""
+msgstr "Извините, регистрация, пока что закрыта"
 
 #: templates/allauth/account/snippets/already_logged_in.html:5
 msgid "Note"
-msgstr ""
+msgstr "Заметка"
 
 #: templates/allauth/account/snippets/already_logged_in.html:5
 #, python-format
@@ -1902,7 +1898,7 @@ msgstr ""
 msgid "The social account has been disconnected."
 msgstr ""
 
-#: templates/allauth/socialaccount/signup.html:10
+#: templates/allauth/socialaccount/signup.html:11
 #, python-format
 msgid ""
 "You are about to use your %(provider_name)s account to login to\n"
@@ -1983,8 +1979,6 @@ msgid "Search"
 msgstr "Найти"
 
 #: templates/shop/navbar.html:76
-#, fuzzy
-#| msgid "Sign Out"
 msgid "Log Out"
 msgstr "Выйти"
 

@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load mathfilters %}
 {% block head_title %}
-{% translate 'Cart' %}
+{% trans 'Cart' %}
 {% endblock head_title %}
 {% block content %}
 <div class="container">
@@ -10,12 +10,12 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">{% translate 'Number' %}</th>
-                <th scope="col">{% translate 'Title' %}</th>
-                <th scope="col">{% translate 'Price' %}</th>
-                <th scope="col">{% translate 'Amount' %}</th>
-                <th scope="col">{% translate 'Total' %}</th>
-                <th scope="col">{% translate 'Delete' %}</th>
+                <th scope="col">{% trans 'Number' %}</th>
+                <th scope="col">{% trans 'Title' %}</th>
+                <th scope="col">{% trans 'Price' %}</th>
+                <th scope="col">{% trans 'Amount' %}</th>
+                <th scope="col">{% trans 'Total' %}</th>
+                <th scope="col">{% trans 'Delete' %}</th>
             </tr>
             </thead>
             <tbody>
@@ -53,20 +53,20 @@
             </tr>
             {% empty %}
             <tr>
-                <td colspan="5">{% translate 'Your cart is empty' %}</td>
+                <td colspan="5">{% trans 'Your cart is empty' %}</td>
             </tr>
             <tr>
                 <td colspan="5">
                     <a
                             class="btn btn-primary float-right mr-2"
                             href="{% url 'shop:category' %}"
-                    >{% translate 'Continue Shopping' %}</a
+                    >{% trans 'Continue Shopping' %}</a
                     >
                 </td>
             </tr>
             {% endfor %}
             <tr>
-                <td colspan="5"><b>{% translate 'Total of all' %}</b></td>
+                <td colspan="5"><b>{% trans 'Total of all' %}</b></td>
                 <td colspan="6">{{ object.get_total_price }} ₽</td>
             </tr>
             <tr>
@@ -74,12 +74,12 @@
                     <a
                             class="btn btn-warning float-right"
                             href="{% url 'shop:checkout' %}"
-                            >{% translate 'Go to payment page' %}</a
+                            >{% trans 'Go to payment page' %}</a
                     >
                     <a
                             class="btn btn-primary float-right mr-2"
                             href="{% url 'shop:category' %}"
-                            >{% translate 'Go to Home' %}</a
+                            >{% trans 'Go to Home' %}</a
                     >
                 </td>
             </tr>

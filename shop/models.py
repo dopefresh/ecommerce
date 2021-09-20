@@ -93,7 +93,8 @@ class SubCategory(models.Model):
         max_length=100, unique=True)
     category = models.ForeignKey('Category',
                                  on_delete=models.CASCADE,
-                                 related_name='sub_categories')
+                                 related_name='sub_categories',
+                                 verbose_name=_('category'))
     image = models.ImageField(
         _('Subcategory image'),
         upload_to=subcategory_directory,
@@ -140,10 +141,12 @@ class Item(models.Model):
     sub_category = models.ForeignKey('SubCategory',
                                      on_delete=models.SET_NULL,
                                      null=True,
-                                     related_name='items')
+                                     related_name='items',
+                                     verbose_name=_('category'))
     company = models.ForeignKey('Company',
                                 on_delete=models.SET_NULL,
-                                null=True)
+                                null=True,
+                                verbose_name=_('company'))
 
     class Meta:
         db_table = 'item'
@@ -166,10 +169,12 @@ class OrderItem(models.Model):
     quantity = models.IntegerField(
         _('Quantity of item in order'),
         default=1)
-    item = models.ForeignKey('Item', on_delete=models.CASCADE)
+    item = models.ForeignKey(
+        'Item', on_delete=models.CASCADE, verbose_name=_('item'))
     order = models.ForeignKey('Order',
                               related_name='order_items',
-                              on_delete=models.CASCADE)
+                              on_delete=models.CASCADE,
+                              verbose_name=_('order'))
 
     class Meta:
         db_table = 'order_item'
@@ -201,7 +206,8 @@ class Order(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE,
-                             related_name='orders')
+                             related_name='orders',
+                             verbose_name=_('user'))
 
     class Meta:
         db_table = 'order'
@@ -239,8 +245,12 @@ class Step(models.Model):
 
 
 class OrderStep(models.Model):
-    step = models.ForeignKey('Step', on_delete=models.CASCADE)
-    order = models.ForeignKey('Order', on_delete=models.CASCADE)
+    step = models.ForeignKey(
+        'Step', on_delete=models.CASCADE,
+        verbose_name=_('step')
+    )
+    order = models.ForeignKey(
+        'Order', on_delete=models.CASCADE, verbose_name=_('order'))
     date_step_begin = models.DateField(
         _('Date step began'),
         null=True

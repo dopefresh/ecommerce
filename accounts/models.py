@@ -47,7 +47,8 @@ class User(AbstractUser):
         City,
         on_delete=models.SET_NULL,
         related_name='users',
-        blank=True, null=True
+        blank=True, null=True,
+        verbose_name=_('city')
     )
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -58,7 +59,7 @@ class User(AbstractUser):
         verbose_name_plural = _('Users')
 
     def __str__(self):
-        return f"{self.username} {self.city}"
+        return f"{self.email} {self.city}"
 
 
 class Employee(models.Model):
@@ -70,7 +71,8 @@ class Employee(models.Model):
         Company,
         on_delete=models.SET_NULL,
         blank=True, null=True,
-        related_name='employees'
+        related_name='employees',
+        verbose_name=_('company')
     )
     phone_number = models.CharField(
         _('phone number'),

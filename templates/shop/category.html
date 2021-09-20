@@ -1,6 +1,6 @@
 {% extends "shop/base.html" %} {% load i18n %}
 {% block head_title %}
-{% translate 'Categories' %}
+{% trans 'Categories' %}
 {% endblock head_title %}
 {% block content %} 
 <div class="container">
@@ -16,13 +16,13 @@
           alt="..."
         />
         <div class="card-body">
-          <p class="card-text">{{ category.title }}</p>
+            <p class="card-text">{{ category.title }}</p>
         </div>
         <a
           class="btn btn-primary"
           href="{% url 'shop:subcategory' category.slug %}"
         >
-          {% translate 'Go to this subcategory' %}
+          {% trans 'Go to this subcategory' %}
         </a>
       </div>
     </div>

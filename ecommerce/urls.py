@@ -18,3 +18,7 @@ if settings.DEBUG:
                           document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL,
                           document_root=settings.STATIC_ROOT)
+
+
+admin.autodiscover()
+admin.site.enable_nav_sidebar = False

@@ -11,7 +11,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
-
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
 
@@ -82,11 +81,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
-
+# Database
 DB_NAME = config('DB_NAME')
 DB_USER = config('DB_USER')
 DB_PASSWORD = config('DB_PASSWORD')
@@ -105,6 +100,15 @@ DATABASES = {
 }
 
 # Auth
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+ACCOUNT_FORMS = {
+    'signup': 'accounts.forms.CustomUserCreationForm',
+}
+
 AUTH_USER_MODEL = 'accounts.User'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
@@ -125,7 +129,11 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
 # Languages And Timezone
+LOCALE_PATHS = (
+    'locale',
+)
 
 LANGUAGE_CODE = 'ru'
 TIME_ZONE = 'UTC'
@@ -145,12 +153,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Django allauth
 SITE_ID = 1
-# Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
         'APP': {
             'client_id': config('GOOGLE_CLIENT_ID'),
             'secret': config('GOOGLE_CLIENT_SECRET'),
@@ -182,9 +186,9 @@ else:
 # CRISPY FORMS
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-logger.add("info.log", format="{time} {level} {message}",
+logger.add("info_django.log", format="{time} {level} {message}",
            level="INFO", rotation="100 KB", compression="zip")
-logger.add("error.log", format="{time} {level} {message}",
+logger.add("error_django.log", format="{time} {level} {message}",
            level="ERROR", rotation="100 KB", compression="zip")
 
 # CELERY
@@ -192,3 +196,13 @@ CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_BROKER_URL = config('CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND')
+
+# SMTP
+DEFAULT_FROM_EMAIL = '<paste your gmail account here>'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = config('EMAIL_ADDRESS')
+EMAIL_HOST_PASSWORD = config('EMAIL_PASSWORD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
