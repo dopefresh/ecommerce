@@ -9,11 +9,12 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DetailView, ListView, View
 from django.conf import settings
-
-from .models import Category, SubCategory, Item, Order, OrderItem
+from .models import Category, Subcategory, Item, Order, OrderItem, SubcategoryFilter
+from django.core.paginator import Paginator
 
 from loguru import logger
 import json
+import operator
 
 
 class CategoryView(ListView):
@@ -23,15 +24,15 @@ class CategoryView(ListView):
     ordering = ('title',)
 
 
-class SubCategoryView(ListView):
-    model = SubCategory
+class SubcategoryView(ListView):
+    model = Subcategory
     template_name = 'shop/subcategory.html'
     context_object_name = 'subcategories'
     paginate_by = 20
     ordering = ('title',)
 
     def get_queryset(self):
-        subcategories = SubCategory.objects.filter(
+        subcategories = Subcategory.objects.filter(
             category__slug=self.kwargs.get('slug')
         ).order_by('title')
         return subcategories
@@ -45,10 +46,12 @@ class ProductsView(ListView):
     ordering = ('price', 'title',)
 
     def get_queryset(self):
-        items = Item.objects.filter(
-            sub_category__slug=self.kwargs.get('slug'),
-        ).order_by('price', 'title')
-        return items
+        if len(self.kwargs) == 1:
+            items = Item.objects.filter(
+                subcategory__slug=self.kwargs.get('slug'),
+            ).order_by('price', 'title')
+            return items
+        return Item.objects.all()
 
 
 class CheckoutView(LoginRequiredMixin, View):
@@ -79,8 +82,10 @@ class ProductView(DetailView):
 class CartView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         try:
-            order = Order.objects.prefetch_related('order_items').get(
-                user=self.request.user, ordered=False, shipped=False
+            order = Order.objects.get(
+                user=self.request.user,
+                ordered=False,
+                shipped=False
             )
             context = {'object': order}
             return render(self.request, 'shop/cart.html', context)
@@ -142,9 +147,7 @@ def ajax_remove_from_cart(request):
 
 @login_required
 def ajax_edit_cart(request):
-    logger.info('Function begin')
     posted_data = json.loads(request.body)
-    logger.info('Parsed request body')
     slug = posted_data.get('slug')
     quantity = posted_data.get('quantity')
     try:

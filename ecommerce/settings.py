@@ -3,6 +3,7 @@ from pathlib import Path
 
 from decouple import config
 from loguru import logger
+import mimetypes
 
 from django.utils.translation import gettext_lazy as _
 
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'corsheaders',
+    'django_celery_beat',
     'django_countries',
     'crispy_forms',
     'mathfilters',
@@ -87,7 +89,6 @@ DB_USER = config('DB_USER')
 DB_PASSWORD = config('DB_PASSWORD')
 DB_HOST = config('DB_HOST')
 DB_HOST_DOCKER = config('DB_HOST_DOCKER')
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -165,23 +166,16 @@ SOCIALACCOUNT_PROVIDERS = {
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-# Static files (CSS, JavaScript, Images)
+# Static files and media (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-
-if DEBUG:
-    STATIC_DIR = os.path.join(BASE_DIR, 'static')
-else:
-    STATICFILES_FINDERS = (
-        'django.contrib.staticfiles.finders.FileSystemFinder',
-        'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    )
 
 # CRISPY FORMS
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+# Logging
 logger.add("info_django.log", format="{time} {level} {message}",
            level="INFO", rotation="100 KB", compression="zip")
 logger.add("error_django.log", format="{time} {level} {message}",
@@ -194,8 +188,6 @@ CELERY_BROKER_URL = config('CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND')
 
 # SMTP
-DEFAULT_FROM_EMAIL = '<paste your gmail account here>'
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = config('EMAIL_ADDRESS')
@@ -204,5 +196,11 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 # CSS error
-import mimetypes
 mimetypes.add_type("text/css", ".css", True)
+
+CELERYBEAT_SCHEDULE = {
+    'update_orders': {
+        'task': 'update_orders',
+        'schedule': 10.0
+    }
+}

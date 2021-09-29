@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-20 10:06+0000\n"
+"POT-Creation-Date: 2021-09-29 08:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: accounts/forms.py:13 accounts/models.py:51
+#: accounts/forms.py:13 accounts/models.py:50
 msgid "city"
 msgstr "город"
 
@@ -35,63 +35,43 @@ msgstr "Админ должен иметь поле is_staff=True"
 msgid "Superuser must have is_superuser=True."
 msgstr "Админ должен иметь поле is_superuser=True"
 
-#: accounts/models.py:16
+#: accounts/models.py:15
 msgid "City name"
 msgstr "Имя города"
 
-#: accounts/models.py:21
+#: accounts/models.py:20
 msgid "Delivery days"
 msgstr "Дней доставки"
 
-#: accounts/models.py:27
+#: accounts/models.py:26
 msgid "City available for delivery"
 msgstr "Город доступный для доставки"
 
-#: accounts/models.py:28
+#: accounts/models.py:27
 msgid "Cities available for delivery"
 msgstr "Города доступные для доставки"
 
-#: accounts/models.py:40
+#: accounts/models.py:39
 msgid "User role"
 msgstr "Роль пользователя"
 
-#: accounts/models.py:45
+#: accounts/models.py:44
 msgid "email address"
 msgstr "email адрес"
 
-#: accounts/models.py:58
+#: accounts/models.py:57
 msgid "User"
 msgstr "Пользователь"
 
-#: accounts/models.py:59
+#: accounts/models.py:58
 msgid "Users"
 msgstr "Пользователи"
 
-#: accounts/models.py:75 shop/models.py:149
-msgid "company"
-msgstr "компания"
-
-#: accounts/models.py:78
-msgid "phone number"
-msgstr "Номер телефона"
-
-#: accounts/models.py:83
-msgid "photo"
-msgstr "фото"
-
-#: accounts/models.py:90
-msgid "Company employees"
-msgstr "Сотрудники компании"
-
-#: accounts/models.py:91
-msgid "Company employee"
-msgstr "сотрудник компании"
-
-#: ecommerce/settings.py:144
+#: ecommerce/settings.py:145
 msgid "Russian"
 msgstr "Русский"
 
-#: ecommerce/settings.py:145
+#: ecommerce/settings.py:146
 msgid "English"
 msgstr "English"
 
@@ -1344,137 +1324,221 @@ msgstr ""
 msgid "Unable to connect to qpid with SASL mechanism %s"
 msgstr ""
 
-#: shop/models.py:30
+#: env/lib/python3.8/site-packages/timezone_field/rest_framework.py:9
+#, fuzzy
+#| msgid "This field is required."
+msgid "A valid timezone is required."
+msgstr "Это поле необходимо"
+
+#: shop/models.py:33
 msgid "Company name"
 msgstr "Название компании"
 
-#: shop/models.py:34
+#: shop/models.py:37
 msgid "Company location"
 msgstr "Местоположение компании"
 
-#: shop/models.py:37
+#: shop/models.py:40
 msgid "Company phone number"
 msgstr "Номер телефона компании"
 
-#: shop/models.py:40
+#: shop/models.py:43
 msgid "Company logo"
 msgstr "Логотип компании"
 
-#: shop/models.py:47
+#: shop/models.py:50
 msgid "Company"
 msgstr "Компания"
 
-#: shop/models.py:48
+#: shop/models.py:51
 msgid "Companies"
 msgstr "Компании"
 
-#: shop/models.py:64
+#: shop/models.py:71 shop/models.py:183
+msgid "company"
+msgstr "компания"
+
+#: shop/models.py:74
+msgid "phone number"
+msgstr "Номер телефона"
+
+#: shop/models.py:79
+msgid "photo"
+msgstr "фото"
+
+#: shop/models.py:86
+msgid "Company employees"
+msgstr "Сотрудники компании"
+
+#: shop/models.py:87
+msgid "Company employee"
+msgstr "сотрудник компании"
+
+#: shop/models.py:99
 msgid "Category name"
 msgstr "Название категории"
 
-#: shop/models.py:67
+#: shop/models.py:102
 msgid "Category image"
 msgstr "Фото категории"
 
-#: shop/models.py:74
+#: shop/models.py:109
 msgid "Category"
 msgstr "Категория"
 
-#: shop/models.py:75 templates/shop/category.html:3
+#: shop/models.py:110 templates/shop/category.html:3
 msgid "Categories"
 msgstr "Категории"
 
-#: shop/models.py:92
+#: shop/models.py:127
 msgid "Subcategory name"
 msgstr "Название подкатегории"
 
-#: shop/models.py:97 shop/models.py:145
-#, fuzzy
-#| msgid "Category"
+#: shop/models.py:132
 msgid "category"
-msgstr "Категория"
+msgstr "категория"
 
-#: shop/models.py:99
+#: shop/models.py:134
 msgid "Subcategory image"
 msgstr "Фото подкатегории"
 
-#: shop/models.py:106
+#: shop/models.py:141
 msgid "Subcategory"
 msgstr "Подкатегория"
 
-#: shop/models.py:107
+#: shop/models.py:142
 msgid "Subcategories"
 msgstr "Подкатегории"
 
-#: shop/models.py:123
+#: shop/models.py:158
 msgid "Product title"
 msgstr "Название товара"
 
-#: shop/models.py:129
+#: shop/models.py:163
 msgid "Product description"
 msgstr "Описание товара"
 
-#: shop/models.py:132
+#: shop/models.py:166
 msgid "Product price"
 msgstr "Цена товара"
 
-#: shop/models.py:135
+#: shop/models.py:169
 msgid "Product image"
 msgstr "Фото товара"
 
-#: shop/models.py:153
+#: shop/models.py:179 shop/models.py:209
+msgid "subcategory"
+msgstr "подкатегория"
+
+#: shop/models.py:187
 msgid "Product"
 msgstr "Товар"
 
-#: shop/models.py:154 templates/shop/items.html:4
+#: shop/models.py:188 templates/shop/items.html:4
 msgid "Products"
 msgstr "Товары"
 
-#: shop/models.py:170
+#: shop/models.py:214 shop/models.py:229
+msgid "Product filter"
+msgstr "Фильтр товаров"
+
+#: shop/models.py:215
+msgid "Product filters"
+msgstr "Фильтры товаров"
+
+#: shop/models.py:236
+msgid "Choice"
+msgstr "Выбор"
+
+#: shop/models.py:241
+msgid "Choice for product filter"
+msgstr "Выбор для фильтра продуктов"
+
+#: shop/models.py:242
+msgid "Choices for product filter"
+msgstr "Выборы для фильтра продуктов"
+
+#: shop/models.py:253
 msgid "Quantity of item in order"
 msgstr "Количество товара в заказе"
 
-#: shop/models.py:173
+#: shop/models.py:256
 msgid "item"
-msgstr ""
+msgstr "продукт"
 
-#: shop/models.py:177 shop/models.py:253
+#: shop/models.py:260 shop/models.py:345
 msgid "order"
 msgstr "заказ"
 
-#: shop/models.py:198
+#: shop/models.py:264
+msgid "Item in user order"
+msgstr "Продукт в корзине покупателя"
+
+#: shop/models.py:265
+msgid "Items in user order"
+msgstr "продукты в корзине пользователя"
+
+#: shop/models.py:281
 msgid "Is it ordered by user"
 msgstr "Заказано ли пользователем"
 
-#: shop/models.py:201
+#: shop/models.py:284
 msgid "Is order shipped"
 msgstr "Доставлен ли заказ"
 
-#: shop/models.py:204
+#: shop/models.py:287
 msgid "Date when ordered"
 msgstr "Дата заказа"
 
-#: shop/models.py:210
+#: shop/models.py:295
 msgid "user"
 msgstr "пользователь"
 
-#: shop/models.py:235
+#: shop/models.py:299
+msgid "User's cart"
+msgstr "Корзина покупателя"
+
+#: shop/models.py:300
+msgid "User's Carts"
+msgstr "Корзины покупателя"
+
+#: shop/models.py:325
 msgid "Step name"
 msgstr "Название шага"
 
-#: shop/models.py:250
+#: shop/models.py:330
+msgid "Step"
+msgstr "Название шага"
+
+#: shop/models.py:331
+msgid "Steps"
+msgstr "Шаги"
+
+#: shop/models.py:340
 msgid "step"
 msgstr "шаг"
 
-#: shop/models.py:255
+#: shop/models.py:349
 msgid "Date step began"
 msgstr "Дата начала процесса"
 
-#: shop/models.py:259
+#: shop/models.py:353
 msgid "Date step ended"
 msgstr "Дата окончания процесса"
 
-#: shop/views.py:103 shop/views.py:120
+#: shop/models.py:357
+msgid "Order's Step"
+msgstr ""
+
+#: shop/models.py:358
+msgid "Order's Steps"
+msgstr ""
+
+#: shop/views.py:69
+msgid "You do not have an active order"
+msgstr ""
+
+#: shop/views.py:111 shop/views.py:128
 msgid "This item doesn't exist"
 msgstr "Товар не существует"
 
@@ -1632,10 +1696,7 @@ msgstr ""
 " из ваших сторонних аккаунтов или <a href=\"%(signup_url)s"
 
 #: templates/allauth/account/login.html:33
-#, fuzzy, python-format
-#| msgid ""
-#| "If you have not created an account yet, then please\n"
-#| "<a href=\"%(signup_url)s\">sign up</a> first."
+#, python-format
 msgid ""
 "If you have not created an account yet, then please\n"
 "  <a href=\"%(signup_url)s\">sign up</a> first."
@@ -1904,23 +1965,41 @@ msgid ""
 "%(site_name)s. As a final step, please complete the following form:"
 msgstr ""
 
+#: templates/payment/order_status.html:5
+msgid "Order Status"
+msgstr "Статус вашего заказа"
+
+#: templates/payment/order_status.html:12
+msgid "Track your package"
+msgstr "Отслеживайте свою посылку"
+
+#: templates/payment/order_status.html:13
+msgid "status"
+msgstr "статус"
+
+#: templates/payment/order_status.html:14
+msgid ""
+"If you have paid for your order, each 20 seconds status of your order will "
+"change, otherwise it waits for you to pay for it"
+msgstr "Если вы заплатили за ваш заказ, то каждые 20 секунд его статус будет меняться, иначе заказ ждёт оплаты"
+
 #: templates/shop/cart.html:5 templates/shop/navbar.html:75
 msgid "Cart"
 msgstr "Корзина"
 
-#: templates/shop/cart.html:13
+#: templates/shop/cart.html:13 templates/shop/checkout.html:13
 msgid "Number"
 msgstr "Номер"
 
-#: templates/shop/cart.html:14
+#: templates/shop/cart.html:14 templates/shop/checkout.html:14
 msgid "Title"
 msgstr "Название"
 
-#: templates/shop/cart.html:15
+#: templates/shop/cart.html:15 templates/shop/checkout.html:15
 msgid "Price"
 msgstr "Цена"
 
-#: templates/shop/cart.html:16
+#: templates/shop/cart.html:16 templates/shop/checkout.html:16
 msgid "Amount"
 msgstr "Количество"
 
@@ -1928,19 +2007,19 @@ msgstr "Количество"
 msgid "Total"
 msgstr "Итого"
 
-#: templates/shop/cart.html:56
+#: templates/shop/cart.html:56 templates/shop/checkout.html:35
 msgid "Your cart is empty"
 msgstr "Ваша корзина пуста"
 
-#: templates/shop/cart.html:60
+#: templates/shop/cart.html:60 templates/shop/checkout.html:39
 msgid "Total of all"
 msgstr "Сумма"
 
-#: templates/shop/cart.html:68
+#: templates/shop/cart.html:69
 msgid "Go to payment page"
 msgstr "На страницу оплаты"
 
-#: templates/shop/cart.html:73
+#: templates/shop/cart.html:75
 msgid "Go to Home"
 msgstr "На главную"
 
@@ -1948,25 +2027,33 @@ msgstr "На главную"
 msgid "Go to this subcategory"
 msgstr "Посмотреть товары здесь"
 
-#: templates/shop/footer.html:25
-msgid "Links"
-msgstr "Ссылки"
+#: templates/shop/checkout.html:5
+msgid "Checkout"
+msgstr "Покупка"
 
-#: templates/shop/footer.html:33
+#: templates/shop/checkout.html:47
+msgid ""
+"Each step after payment is taking exactly 20 seconds, because this ecommerce "
+"is just a pet project"
+msgstr ""
+"Каждый шаг(упаковка, доставка в город, доставка по городу) занимает 20 "
+"секунд, так как это не настоящий магазин"
+
+#: templates/shop/checkout.html:52
+msgid "Pay with Yookassa"
+msgstr "Оплатить с Юкасса"
+
+#: templates/shop/footer.html:13
 msgid "resume"
 msgstr "резюме"
 
-#: templates/shop/footer.html:41
+#: templates/shop/footer.html:25
 msgid "github profile"
 msgstr "профиль на гитхабе"
 
-#: templates/shop/footer.html:48
-msgid "List of technologies"
-msgstr "Список использованных фреймворков"
-
-#: templates/shop/footer.html:67
-msgid "Barely used"
-msgstr "Едва использован"
+#: templates/shop/items.html:42
+msgid "Add to cart"
+msgstr "Добавить в корзину"
 
 #: templates/shop/navbar.html:66 templates/shop/navbar.html:67
 #: templates/shop/navbar.html:70
@@ -1984,6 +2071,15 @@ msgstr "Войти"
 #: templates/shop/subcategory.html:23
 msgid "Goods"
 msgstr "Товары"
+
+#~ msgid "Links"
+#~ msgstr "Ссылки"
+
+#~ msgid "List of technologies"
+#~ msgstr "Список использованных фреймворков"
+
+#~ msgid "Barely used"
+#~ msgstr "Едва использован"
 
 #~ msgid "Continue Shopping"
 #~ msgstr "Продолжить закупку"

@@ -10,7 +10,9 @@ urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('', include('shop.urls', namespace='shop')),
+    path('payment/', include('payment.urls', namespace='payment')),
 )
+
 urlpatterns += [
     path('i18n/', include('django.conf.urls.i18n')),
     path('ajax_add_to_cart/',
@@ -21,11 +23,10 @@ urlpatterns += [
          name='ajax_remove_from_cart'),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL,
-                          document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL,
+                      document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL,
+                      document_root=settings.STATIC_ROOT)
 
 
 admin.autodiscover()

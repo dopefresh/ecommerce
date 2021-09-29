@@ -4,7 +4,6 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 from .managers import CustomUserManager
-from shop.models import Company
 
 
 def company_logo_directory(instance, filename):
@@ -60,35 +59,3 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"{self.email} {self.city}"
-
-
-class Employee(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
-    )
-    company = models.ForeignKey(
-        Company,
-        on_delete=models.SET_NULL,
-        blank=True, null=True,
-        related_name='employees',
-        verbose_name=_('company')
-    )
-    phone_number = models.CharField(
-        _('phone number'),
-        max_length=25,
-        blank=True, null=True
-    )
-    photo = models.ImageField(
-        _('photo'),
-        upload_to=company_logo_directory,
-        blank=True, null=True
-    )
-
-    class Meta:
-        db_table = 'employee'
-        verbose_name_plural = _('Company employees')
-        verbose_name = _("Company employee")
-
-    def __str__(self):
-        return f'{self.user}\n{self.company}\n{self.phone_number}'

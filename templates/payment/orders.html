@@ -1,0 +1,25 @@
+{% extends "shop/base.html" %}
+{% load i18n %}
+{% load mathfilters %}
+{% block head_title %}
+{% trans 'Shipped Orders' %}
+{% endblock head_title %}
+{% block content %}
+
+<div class="container">
+    <div class="d-flex flex-row justify-content-center align-items-center">
+        {% for order in orders %}
+        <div class="col-sm-2">
+            <p class="text-center">{{ order.ordered_date }}</p>
+            <p class="text-center">{{ order.get_total_price }} ₽</p>
+            <div class="d-flex justify-content-center">
+                <a href="{% url 'payment:order' order.uuid %}" class="btn">
+                    {% trans 'Order Items' %}
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

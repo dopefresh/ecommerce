@@ -8,36 +8,58 @@
 <div class="container mb-5">
     <div class="row">
         <div class="col-sm-4">
-            Product filters
+            Картинок нет, так как парсил без них
         </div>
-            <div class="col-sm-8">
-                {% for item in items %}
-                <div class="card mb-3">
-                    <div class="row no-gutters">
-                        <div class="col-md-4">
+        <div class="col-sm-8">
+            {% for item in page_obj %}
+            <div class="card mb-3">
+                <div class="row no-gutters">
+                    {% if item.image %}
+                    <div class="col-md-4">
+
+                        <a href="{% url 'shop:product' item.slug %}">
                             <img src="{{ item.image.url }}" class="card-img" alt="...">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ item.title }}</h5>
+                        </a>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.title }}</h5>
+                            {% if item.description %}
                                 <p class="card-text">{{ item.description|truncatechars:200 }}</p>
-                                <div class="row ml-auto">
-                                    <div class="col-md-6">
-                                        <div class="d-flex justify-content-center align-items-center" style="height: 100%">
-                                            {{ item.price }}₽
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <button class="btn btn-primary" onclick="addToCart('{{ item.slug }}')" role="button">Add to cart</button>
+                            {% endif %}
+                            <div class="row ml-auto">
+                                <div class="col-md-6">
+                                    <div class="d-flex justify-content-center align-items-center" style="height: 100%">
+                                        {{ item.price }}₽
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary" 
+                                    onclick="addToCart('{{ item.slug }}')" 
+                                    role="button">
+                                        {% trans 'Add to cart' %}
+                                    </button>
+                                </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
-                {% endfor %}
             </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="d-flex flex-row justify-content-around align-items-center">
+        {% if page_obj.has_previous %}
+            <a href="?page=1"> << </a>
+            <a href="?page={{ page_obj.previous_page_number }}"> < </a>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}"> > </a>
+            <a href="?page={{ page_obj.paginator.num_pages }}"> >> </a>
+        {% endif %}
     </div>
 </div>
 <script>
@@ -54,6 +76,28 @@
             }
         });
         console.log(response);
+    };
+
+    async function filterProducts() {
+        let checkBoxes = document.getElementsByTagName("input");
+        let redirectUrl = window.location.href + '?';
+        if (redirectUrl.includes('?')) {
+            let pos = redirectUrl.indexOf('?');
+            redirectUrl = redirectUrl.substring(1, pos);
+        }
+        for (let i = 0; i < checkBoxes.length; i++) {
+            if (checkBoxes[i].checked === true) {
+                let id = checkBoxes[i].id;
+                let values = id.split(' ');
+                let filterName = values.slice(2, values.length - 1),
+                    choice = values[values.length - 1];
+                redirectUrl += `${filterName}=${choice}`;
+                if (i !== checkBoxes.length - 1) {
+                    redirectUrl += "&";
+                }
+            }
+        }
+        window.location.href = redirectUrl;
     }
 </script>
 

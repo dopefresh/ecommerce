@@ -1,0 +1,56 @@
+{% extends "shop/base.html" %}
+{% load i18n %}
+{% load mathfilters %}
+{% block head_title %}
+{% trans 'Order' %}
+{% endblock head_title %}
+{% block content %}
+
+<div class="container">
+    <div class="d-flex flex-row justify-content-center align-items-center">
+        <div class="col">
+            <p class="text-center">{{ order.ordered_date }}</p>
+
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">{% trans 'Number' %}</th>
+                            <th scope="col">{% trans 'Title' %}</th>
+                            <th scope="col">{% trans 'Price' %}</th>
+                            <th scope="col">{% trans 'Amount' %}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for order_item in order.order_items.all %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td style="width: 25%">
+                                <a href="{% url 'shop:product' order_item.item.slug %}">
+                                    {{ order_item.item.title }}
+                                </a>
+                            </td>
+                            <td style="width: 25%">{{ order_item.item.price }}₽</td>
+                            <td style="width: 25%">
+                                <p>{{ order_item.quantity }}</p>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5">{% trans 'Your cart is empty' %}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td colspan="3"><b>{% trans 'Total of all' %}</b></td>
+                            <td colspan="4">{{ order.get_total_price }} ₽</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

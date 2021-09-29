@@ -1,12 +1,15 @@
 from django.conf import settings
 from django.db import models
+from django.db.models.signals import post_save, pre_save
+from django.dispatch.dispatcher import receiver
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from PIL import Image
 
-from loguru import logger
-
 from shop import tasks
+
+import uuid
+from loguru import logger
 
 
 def company_logo_directory(instance, filename):
@@ -55,6 +58,38 @@ class Company(models.Model):
         tasks.save_company_image.delay(self.pk)
 
 
+class Employee(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    company = models.ForeignKey(
+        'Company',
+        on_delete=models.SET_NULL,
+        blank=True, null=True,
+        related_name='employees',
+        verbose_name=_('company')
+    )
+    phone_number = models.CharField(
+        _('phone number'),
+        max_length=25,
+        blank=True, null=True
+    )
+    photo = models.ImageField(
+        _('photo'),
+        upload_to=company_logo_directory,
+        blank=True, null=True
+    )
+
+    class Meta:
+        db_table = 'employee'
+        verbose_name_plural = _('Company employees')
+        verbose_name = _("Company employee")
+
+    def __str__(self):
+        return f'{self.user}\n{self.company}\n{self.phone_number}'
+
+
 class Category(models.Model):
     """
     Category of Product in ecommerce site
@@ -83,7 +118,7 @@ class Category(models.Model):
         tasks.save_category_image.delay(self.pk)
 
 
-class SubCategory(models.Model):
+class Subcategory(models.Model):
     """
     Subcategory of Product in ecommerce site
     """
@@ -93,7 +128,7 @@ class SubCategory(models.Model):
         max_length=100, unique=True)
     category = models.ForeignKey('Category',
                                  on_delete=models.CASCADE,
-                                 related_name='sub_categories',
+                                 related_name='subcategories',
                                  verbose_name=_('category'))
     image = models.ImageField(
         _('Subcategory image'),
@@ -102,7 +137,7 @@ class SubCategory(models.Model):
         null=True)
 
     class Meta:
-        db_table = 'sub_category'
+        db_table = 'subcategory'
         verbose_name = _('Subcategory')
         verbose_name_plural = _('Subcategories')
 
@@ -121,9 +156,8 @@ class Item(models.Model):
     """
     title = models.CharField(
         _('Product title'),
-        max_length=100,
-        blank=False,
-        null=False,
+        max_length=255,
+        blank=False, null=False,
         unique=True)
     description = models.TextField(
         _('Product description'),
@@ -137,12 +171,12 @@ class Item(models.Model):
         blank=True,
         null=True)
 
-    slug = models.SlugField(blank=True)
-    sub_category = models.ForeignKey('SubCategory',
-                                     on_delete=models.SET_NULL,
-                                     null=True,
-                                     related_name='items',
-                                     verbose_name=_('category'))
+    slug = models.SlugField(blank=True, max_length=255)
+    subcategory = models.ForeignKey('Subcategory',
+                                    on_delete=models.SET_NULL,
+                                    null=True,
+                                    related_name='items',
+                                    verbose_name=_('subcategory'))
     company = models.ForeignKey('Company',
                                 on_delete=models.SET_NULL,
                                 null=True,
@@ -162,9 +196,58 @@ class Item(models.Model):
         tasks.save_item_image.delay(self.pk)
 
 
+class SubcategoryFilter(models.Model):
+    title = models.CharField(
+        max_length=30,
+        blank=False, null=False,
+        default=''
+    )
+    subcategory = models.ForeignKey(
+        'Subcategory',
+        on_delete=models.CASCADE,
+        related_name='subcategory_filters',
+        verbose_name=_('subcategory')
+    )
+
+    class Meta:
+        db_table = 'subcategory_filter'
+        verbose_name = _("Product filter")
+        verbose_name_plural = _("Product filters")
+
+    def __str__(self):
+        return self.title
+
+
+class SubcategoryFilterChoice(models.Model):
+    """
+    Selectable to include some kind of items.
+    I.e. items whose price is more than 4000 r.
+    """
+    subcategory_filter = models.ForeignKey(
+        'SubcategoryFilter',
+        on_delete=models.CASCADE,
+        verbose_name=_('Product filter'),
+        related_name='choices'
+    )
+    choice_text = models.CharField(
+        max_length=40,
+        blank=False, null=False,
+        default='',
+        verbose_name=_('Choice')
+    )
+
+    class Meta:
+        db_table = 'subcategory_filter_choice'
+        verbose_name = _("Choice for product filter")
+        verbose_name_plural = _("Choices for product filter")
+
+    def __str__(self):
+        return f"{self.subcategory_filter} {self.choice_text}"
+
+
 class OrderItem(models.Model):
     """
-    User items in his order
+    User's items in his order
     """
     quantity = models.IntegerField(
         _('Quantity of item in order'),
@@ -178,8 +261,8 @@ class OrderItem(models.Model):
 
     class Meta:
         db_table = 'order_item'
-        verbose_name = "Item in user order"
-        verbose_name_plural = "Items in user order"
+        verbose_name = _("Item in user order")
+        verbose_name_plural = _("Items in user order")
         unique_together = (
             'item',
             'order',
@@ -200,10 +283,12 @@ class Order(models.Model):
     shipped = models.BooleanField(
         _('Is order shipped'),
         default=False)
-    ordered_date = models.DateTimeField(
+    ordered_date = models.DateField(
         _("Date when ordered"),
         blank=True, null=True)
 
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    amount = models.IntegerField(blank=True, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE,
                              related_name='orders',
@@ -211,15 +296,21 @@ class Order(models.Model):
 
     class Meta:
         db_table = 'order'
-        verbose_name = "User's cart"
-        verbose_name_plural = "User's Carts"
+        verbose_name = _("User's cart")
+        verbose_name_plural = _("User's Carts")
 
     def __str__(self):
         return str(self.user)
 
     def get_total_price(self):
-        return sum([order_item.quantity * order_item.item.price
-                    for order_item in self.order_items.all()])
+        order = Order.objects.filter(
+            ordered=self.ordered,
+            shipped=self.shipped,
+            user=self.user).prefetch_related('order_items', 'order_items__item')
+
+        total = [order_item.quantity * order_item.item.price
+                 for order_item in order[0].order_items.all()]
+        return sum(total)
 
 
 class Step(models.Model):
@@ -230,18 +321,17 @@ class Step(models.Model):
     3. Transportation
     4. Delivery in user's city
     """
-
     name_step = models.CharField(
         _('Step name'),
         max_length=50, default='Оплата'
     )
-    orders = models.ManyToManyField(Order,
-                                    related_name='steps',
-                                    through='OrderStep')
 
     class Meta:
-        verbose_name = "Step"
-        verbose_name_plural = "Steps"
+        verbose_name = _("Step")
+        verbose_name_plural = _("Steps")
+
+    def __str__(self):
+        return self.name_step
 
 
 class OrderStep(models.Model):
@@ -250,15 +340,35 @@ class OrderStep(models.Model):
         verbose_name=_('step')
     )
     order = models.ForeignKey(
-        'Order', on_delete=models.CASCADE, verbose_name=_('order'))
-    date_step_begin = models.DateField(
+        'Order',
+        on_delete=models.CASCADE,
+        verbose_name=_('order'),
+        related_name='order_steps'
+    )
+    date_step_begin = models.DateTimeField(
         _('Date step began'),
         null=True
     )
-    date_step_end = models.DateField(
+    date_step_end = models.DateTimeField(
         _('Date step ended'),
         null=True)
 
     class Meta:
-        verbose_name = "Order's Step"
-        verbose_name_plural = "Order's Steps"
+        verbose_name = _("Order's Step")
+        verbose_name_plural = _("Order's Steps")
+
+
+@receiver(post_save, sender=Order)
+def create_steps(sender, created, instance, **kwargs):
+    pay_step = Step.objects.get(name_step='оплата')
+    package_step = Step.objects.get(name_step='упаковка')
+    transport_step = Step.objects.get(name_step='доставка в город')
+    delivery_step = Step.objects.get(name_step='доставка по городу')
+
+    order_step1 = OrderStep.objects.create(order=instance, step=pay_step)
+    order_step2 = OrderStep.objects.create(order=instance, step=package_step)
+    order_step3 = OrderStep.objects.create(order=instance, step=transport_step)
+    order_step4 = OrderStep.objects.create(order=instance, step=delivery_step)
+    instance.order_steps.add(
+        order_step1, order_step2, order_step3, order_step4
+    )
