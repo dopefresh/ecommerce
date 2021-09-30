@@ -1,3 +1,5 @@
+# Для оплаты используйте инструкцию https://yookassa.ru/developers/using-api/testing#test-bank-card-success
+
 website: https://ecommerce-by-popov-vasilii-app.ru.com/
 gmail: dopefresh4000@gmail.com
 
