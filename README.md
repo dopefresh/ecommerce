@@ -1,17 +1,18 @@
 website: https://ecommerce-by-popov-vasilii-app.ru.com/
+gmail: dopefresh4000@gmail.com
 
 ## Использованные технологии:
 1. Django
 2. Django-allauth(с Google Oauth Provider)
 3. Django translation framework
 4. Yookassa(вебхуком мне приходит уведомление об оплате)
-5. Postgresql
-6. PgBouncer
-7. Nginx(letsencrypt с помощью certbot)
+5. PostgreSQL
+6. PgBouncer для управления и оптимизации соединений к бд
+7. Nginx(letsencrypt с помощью certbot) использовал сайт https://www.digitalocean.com/community/tools/nginx + небольшие доработки
 8. Gunicorn
-9. Celery
+9. Celery(RabbitMQ как брокер сообщений + Redis как результирующий бэкенд)
 10. Bootstrap
-11. AJAX
+11. AJAX(axios) + CORS(django cors headers)
 
 В верхнем правом углу есть кнопки смены языка, до конца я не довёл перевод
 (описания и названия товаров только на русском), так как у меня нет на это времени в данный момент
