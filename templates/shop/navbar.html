@@ -1,90 +1,92 @@
 {% load i18n %} {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+<head>
+    <meta charset="UTF-8"/>
     <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/geedmo/yamm@4.0.0/dist/yamm.min.css"
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/gh/geedmo/yamm@4.0.0/dist/yamm.min.css"
     />
     <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous"
     />
-  </head>
-  <body>
-    <div class="container mb-5">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+</head>
+<body>
+<div class="container mb-5">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         {% get_current_language as LANGUAGE_CODE %}
         {% if LANGUAGE_CODE == 'ru' %}
-            <form action="{% url 'set_language' %}" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="language" value="ru">
-                <button class="btn btn-primary" type="submit" id="language-ru">ru</button>
-            </form>
-            <form action="{% url 'set_language' %}" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="language" value="en">
-                <button class="btn" type="submit" id="language-en">en</button>  
-            </form>
+        <form action="{% url 'set_language' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="language" value="ru">
+            <button class="btn btn-primary" type="submit" id="language-ru">ru</button>
+        </form>
+        <form action="{% url 'set_language' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="language" value="en">
+            <button class="btn" type="submit" id="language-en">en</button>
+        </form>
         {% else %}
 
-            <form action="{% url 'set_language' %}" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="language" value="ru">
-                <button class="btn" type="submit" id="language-ru">ru</button>
-            </form>
-            <form action="{% url 'set_language' %}" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="language" value="en">
-                <button class="btn btn-primary" type="submit" id="language-en">en</button>  
-            </form>
+        <form action="{% url 'set_language' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="language" value="ru">
+            <button class="btn" type="submit" id="language-ru">ru</button>
+        </form>
+        <form action="{% url 'set_language' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="language" value="en">
+            <button class="btn btn-primary" type="submit" id="language-en">en</button>
+        </form>
         {% endif %}
         <a class="navbar-brand ml-2" href="{% url 'shop:category' %}">Ecommerce</a>
         <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <form class="form-inline my-2 my-lg-0 mr-auto" method="POST" action="{% url 'shop:search' %}">
                 {% csrf_token %}
                 <input
-                  class="form-control mr-sm-2"
-                  id="search"
-                  name="search"
-                  type="search"
-                  placeholder="{% trans 'Search' %}"
-                  aria-label="{% trans 'Search' %}"
+                        class="form-control mr-sm-2"
+                        id="search"
+                        name="search"
+                        type="search"
+                        placeholder="{% trans 'Search' %}"
+                        aria-label="{% trans 'Search' %}"
                 />
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                  {% trans 'Search' %}
+                    {% trans 'Search' %}
                 </button>
             </form>
-          <div class="ml-auto">
-            {% if request.user.is_authenticated %}
-            <a class="nav-item mr-2" href="{% url 'shop:cart' %}">{% trans 'Cart' %}</a>
-            <a class="nav-item mr-2" href="{% url 'account_logout' %}">{% trans 'Log Out' %}</a>
-            {% else %}
-            <a class="nav-item mr-2" href="{% url 'account_signup' %}"
-                                     >{% trans 'Sign Up' %}</a
-            >
-            <a class="nav-item mr-2" href="{% url 'account_login' %}">{% trans 'Login' %}</a>
-            {% endif %}
-          </div>
+            <div class="ml-auto">
+                {% if request.user.is_authenticated %}
+                <a class="nav-item mr-2" href="{% url 'payment:order_status' %}">{% trans 'Order Status' %}</a>
+                <a class="nav-item mr-2" href="{% url 'payment:orders' %}">{% trans 'My orders' %}</a>
+                <a class="nav-item mr-2" href="{% url 'shop:cart' %}">{% trans 'Cart' %}</a>
+                <a class="nav-item mr-2" href="{% url 'account_logout' %}">{% trans 'Log Out' %}</a>
+                {% else %}
+                <a class="nav-item mr-2" href="{% url 'account_signup' %}"
+                >{% trans 'Sign Up' %}</a
+                >
+                <a class="nav-item mr-2" href="{% url 'account_login' %}">{% trans 'Login' %}</a>
+                {% endif %}
+            </div>
         </div>
-      </nav>
-    </div>
-    <script>
+    </nav>
+</div>
+<script>
         async function changeLanguageEng() { 
             let base_url = "http://127.0.0.1:8000";
             let csrfToken = Cookies.get('csrftoken');
@@ -112,21 +114,22 @@
             });
             location.reload();
         }
-    </script>
-    <script
-      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+
+</script>
+<script
+        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"
+></script>
+</body>
 </html>

@@ -5,6 +5,7 @@ from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 
 from shop import views
+import payment
 
 urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
@@ -21,6 +22,11 @@ urlpatterns += [
     path('ajax_remove_from_cart/',
          views.ajax_remove_from_cart,
          name='ajax_remove_from_cart'),
+    path(
+        'payment/webhook/Xyx36tQyw8JqkEZLeheWkCD85SzTGguwFvpjNsErUa2pmN2Pm2/', 
+        payment.views.webhook_handler, 
+        name='webhook'
+    ),
 ]
 
 urlpatterns += static(settings.MEDIA_URL,

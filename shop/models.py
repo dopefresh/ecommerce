@@ -358,17 +358,3 @@ class OrderStep(models.Model):
         verbose_name_plural = _("Order's Steps")
 
 
-@receiver(post_save, sender=Order)
-def create_steps(sender, created, instance, **kwargs):
-    pay_step = Step.objects.get(name_step='оплата')
-    package_step = Step.objects.get(name_step='упаковка')
-    transport_step = Step.objects.get(name_step='доставка в город')
-    delivery_step = Step.objects.get(name_step='доставка по городу')
-
-    order_step1 = OrderStep.objects.create(order=instance, step=pay_step)
-    order_step2 = OrderStep.objects.create(order=instance, step=package_step)
-    order_step3 = OrderStep.objects.create(order=instance, step=transport_step)
-    order_step4 = OrderStep.objects.create(order=instance, step=delivery_step)
-    instance.order_steps.add(
-        order_step1, order_step2, order_step3, order_step4
-    )

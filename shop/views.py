@@ -3,14 +3,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import F, Q
+from django.db import transaction
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DetailView, ListView, View
 from django.conf import settings
-from .models import Category, Subcategory, Item, Order, OrderItem, SubcategoryFilter
 from django.core.paginator import Paginator
+
+from .models import Category, Subcategory, Item, Order, Step, OrderStep, OrderItem, SubcategoryFilter
 
 from loguru import logger
 import json
@@ -87,6 +89,19 @@ class CartView(LoginRequiredMixin, View):
                 ordered=False,
                 shipped=False
             )
+            pay_step = Step.objects.get(name_step='оплата')
+            package_step = Step.objects.get(name_step='упаковка')
+            transport_step = Step.objects.get(name_step='доставка в город')
+            delivery_step = Step.objects.get(name_step='доставка по городу')
+
+            order_step1 = OrderStep.objects.create(order=order, step=pay_step)
+            order_step2 = OrderStep.objects.create(order=order, step=package_step)
+            order_step3 = OrderStep.objects.create(order=order, step=transport_step)
+            order_step4 = OrderStep.objects.create(order=order, step=delivery_step)
+            order.order_steps.add(
+                order_step1, order_step2, order_step3, order_step4
+            )
+
             context = {'object': order}
             return render(self.request, 'shop/cart.html', context)
         except ObjectDoesNotExist:
@@ -102,6 +117,7 @@ def search_view(request):
     return redirect(request.path_info)
 
 
+@logger.catch
 @login_required
 def ajax_add_to_cart(request):
     event_json = json.loads(request.body)
@@ -109,15 +125,18 @@ def ajax_add_to_cart(request):
         item = Item.objects.get(slug=event_json.get('slug'))
     except:
         return JsonResponse({'error': _("This item doesn't exist")}, status=400)
+    
     order, order_created = Order.objects.get_or_create(
         user=request.user, ordered=False, shipped=False
     )
     order_item, order_item_created = OrderItem.objects.get_or_create(
         order=order, item=item
     )
+
     return JsonResponse({}, status=201)
 
 
+@logger.catch
 @login_required
 def ajax_remove_from_cart(request):
     event_json = json.loads(request.body)
@@ -145,6 +164,7 @@ def ajax_remove_from_cart(request):
     return JsonResponse({}, status=202)
 
 
+@logger.catch
 @login_required
 def ajax_edit_cart(request):
     posted_data = json.loads(request.body)

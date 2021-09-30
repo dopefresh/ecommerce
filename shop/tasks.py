@@ -15,7 +15,7 @@ def save_company_image(pk):
 
 @app.task(name='save_subcategory_image')
 def save_subcategory_image(pk):
-    subcategory = models.SubCategory.objects.get(pk=pk)
+    subcategory = models.Subcategory.objects.get(pk=pk)
     imag = Image.open(subcategory.image.path)
     output_size = (200, 200)
     imag.thumbnail(output_size)

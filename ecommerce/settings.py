@@ -96,7 +96,7 @@ DATABASES = {
         'USER': DB_USER,
         'PASSWORD': DB_PASSWORD,
         'HOST': DB_HOST,
-        'PORT': '5432',
+        'PORT': '6432',
     }
 }
 
@@ -177,9 +177,9 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Logging
 logger.add("info_django.log", format="{time} {level} {message}",
-           level="INFO", rotation="100 KB", compression="zip")
+           level="INFO", rotation="1000 KB", compression="zip")
 logger.add("error_django.log", format="{time} {level} {message}",
-           level="ERROR", rotation="100 KB", compression="zip")
+           level="ERROR", rotation="1000 KB", compression="zip")
 
 # CELERY
 CELERY_TASK_TRACK_STARTED = True

@@ -2,33 +2,35 @@
 'Product' %} {% endblock head_title %} {% block content %}
 
 <main class="mt-5 pt-4">
-  <div class="container dark-grey-text mt-5">
-    <div class="row wow fadeIn">
-      <div class="col-sm-6 mb-4">
-        <img src="{{ item.image.url }}" width=400px height=400px class="img-fluid" alt="" />
-      </div>
+    <div class="container dark-grey-text mt-5">
+        <div class="row wow fadeIn">
+            <div class="col-sm-6 mb-4">
+                <img src="{{ item.image.url }}" width=400px height=400px class="img-fluid" alt=""/>
+            </div>
 
-      <div class="col-sm-6 mb-4">
-        <div class="p-4">
-          <p class="lead font-weight-bold">{{ item.description }}</p>
-          <div class="col-md-6">
-              <div class="d-flex justify-content-between align-items-center" style="height: 100%">
-                  {{ item.price }} ₽
-                  <button class="btn btn-primary" onclick="addToCart('{{ item.slug }}')" role="button">Add to cart</button>
-              </div>
-          </div>
+            <div class="col-sm-6 mb-4">
+                <div class="p-4">
+                    <p class="lead font-weight-bold">{{ item.description }}</p>
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-between align-items-center" style="height: 100%">
+                            {{ item.price }} ₽
+                            <button class="btn btn-primary" onclick="addToCart('{{ item.slug }}')" role="button">Add to
+                                cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <hr />
-  </div>
+        <hr/>
+    </div>
 </main>
 
 <script>
     async function addToCart(slug) { 
         console.log(slug);
-        let base_url = "http://127.0.0.1:8000";
+        let base_url = "https://ecommerce-by-popov-vasilii-app.ru.com";
         let csrfToken = Cookies.get('csrftoken');
         let response = await axios.post(base_url + '/ajax_add_to_cart/', {
             slug: slug,
