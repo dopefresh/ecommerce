@@ -1,15 +1,16 @@
-{% extends "shop/base.html" %} {% load i18n %} {% block head_title %} {% trans
-'Product' %} {% endblock head_title %} {% block content %}
+{% extends "shop/base.html" %} 
+{% load i18n %} 
+{% block head_title %} 
+{% trans 'Product' %} 
+{% endblock head_title %} 
+{% block content %}
 
 <main class="mt-5 pt-4">
     <div class="container dark-grey-text mt-5">
         <div class="row wow fadeIn">
             <div class="col-sm-6 mb-4">
-                <img src="{{ item.image.url }}" width=400px height=400px class="img-fluid" alt=""/>
-            </div>
-
-            <div class="col-sm-6 mb-4">
                 <div class="p-4">
+		    <h3 class="font-weight-bold text-center">{{ item.title }}</h3>
                     <p class="lead font-weight-bold">{{ item.description }}</p>
                     <div class="col-md-6">
                         <div class="d-flex justify-content-between align-items-center" style="height: 100%">
