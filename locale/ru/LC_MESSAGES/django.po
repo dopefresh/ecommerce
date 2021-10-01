@@ -2027,6 +2027,18 @@ msgid "Order Items"
 msgstr "Товары в заказе"
 
 #: templates/shop/cart.html:5 templates/shop/navbar.html:77
+"Если вы заплатили за ваш заказ, то каждые 20 секунд его статус будет "
+"меняться, иначе заказ ждёт оплаты"
+
+#: templates/payment/orders.html:5
+msgid "Shipped Orders"
+msgstr ""
+
+#: templates/payment/orders.html:17
+msgid "Order Items"
+msgstr "Товары в заказе"
+
+#: templates/shop/cart.html:5 templates/shop/navbar.html:76
 msgid "Cart"
 msgstr "Корзина"
 
@@ -2091,6 +2103,16 @@ msgid "Log Out"
 msgstr "Выйти"
 
 #: templates/shop/navbar.html:83
+#: templates/shop/navbar.html:75
+#| msgid "order"
+msgid "My orders"
+msgstr "Мои заказы"
+
+#: templates/shop/navbar.html:77
+msgid "Log Out"
+msgstr "Выйти"
+
+#: templates/shop/navbar.html:82
 msgid "Login"
 msgstr "Войти"
 
