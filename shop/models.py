@@ -303,14 +303,10 @@ class Order(models.Model):
         return str(self.user)
 
     def get_total_price(self):
-        order = Order.objects.filter(
-            ordered=self.ordered,
-            shipped=self.shipped,
-            user=self.user).prefetch_related('order_items', 'order_items__item')
-
-        total = [order_item.quantity * order_item.item.price
-                 for order_item in order[0].order_items.all()]
-        return sum(total)
+        return sum([
+            order_item.quantity * order_item.item.price
+            for order_item in self.order_items.all()
+        ])
 
 
 class Step(models.Model):
