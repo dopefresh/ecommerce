@@ -27,17 +27,30 @@ def update_orders():
         now = datetime.datetime.now(tz=timezone('Europe/Moscow'))
         time_diff = now - packaging_step.date_step_begin
 
-        if packaging_step.date_step_end is None and time_diff.seconds >= 20:
+        if packaging_step.date_step_end is None and time_diff.seconds >= 120:
             packaging_step.date_step_end = now
             transport_step.date_step_begin = now
+            packaging_step.save()
+            transport_step.save()
+            continue
+        
+        if transport_step.date_step_begin is None:
+            continue
 
         timediff = now - transport_step.date_step_begin
-        if transport_step.date_step_end is None and timediff.seconds >= 20:
+        if transport_step.date_step_end is None and timediff.seconds >= 120:
             transport_step.date_step_end = now
             delivery_step.date_step_begin = now
+            transport_step.save()
+            delivery_step.save()
+            continue
+        
+        if delivery_step.date_step_begin is None:
+            continue
 
-        timediff = now - transport_step.date_step_begin
-        if delivery_step.date_step_end is None and timediff.seconds >= 20:
+        timediff = now - delivery_step.date_step_begin
+        if delivery_step.date_step_end is None and timediff.seconds >= 120:
             delivery_step.date_step_end = now
+            delivery_step.save()
             order.shipped = True
             order.save()

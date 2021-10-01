@@ -8,6 +8,15 @@
         <title>{% block head_title %} {% endblock %}</title>
 		<link rel="stylesheet" href="{% static 'shop/css/hide_arrows.css' %}" type="text/css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-G3JTHGBPDQ"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-G3JTHGBPDQ');
+	</script>
     </head>
     <body>
 		{% include 'shop/navbar.html' %}

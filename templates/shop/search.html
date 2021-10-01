@@ -44,7 +44,8 @@
 <script>
   async function addToCart(slug) {
     console.log(slug);
-    let base_url = "http://127.0.0.1:8000";
+
+    let base_url = "https://ecommerce-by-popov-vasilii-app.ru.com";
     let csrfToken = Cookies.get("csrftoken");
     let response = await axios.post(
       base_url + "/ajax_add_to_cart/",

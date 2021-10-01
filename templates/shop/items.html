@@ -22,12 +22,12 @@
                         </a>
                     </div>
                     {% endif %}
-                    
+
                     <div class="col-md-8">
                         <div class="card-body">
                             <h5 class="card-title">{{ item.title }}</h5>
                             {% if item.description %}
-                                <p class="card-text">{{ item.description|truncatechars:200 }}</p>
+                            <p class="card-text">{{ item.description|truncatechars:200 }}</p>
                             {% endif %}
                             <div class="row ml-auto">
                                 <div class="col-md-6">
@@ -36,9 +36,9 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <button class="btn btn-primary" 
-                                    onclick="addToCart('{{ item.slug }}')" 
-                                    role="button">
+                                    <button class="btn btn-primary"
+                                            onclick="addToCart('{{ item.slug }}')"
+                                            role="button">
                                         {% trans 'Add to cart' %}
                                     </button>
                                 </div>
@@ -52,20 +52,20 @@
     </div>
     <div class="d-flex flex-row justify-content-around align-items-center">
         {% if page_obj.has_previous %}
-            <a href="?page=1"> << </a>
-            <a href="?page={{ page_obj.previous_page_number }}"> < </a>
+        <a href="?page=1"> << </a>
+        <a href="?page={{ page_obj.previous_page_number }}"> < </a>
         {% endif %}
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}"> > </a>
-            <a href="?page={{ page_obj.paginator.num_pages }}"> >> </a>
+        <a href="?page={{ page_obj.next_page_number }}"> > </a>
+        <a href="?page={{ page_obj.paginator.num_pages }}"> >> </a>
         {% endif %}
     </div>
 </div>
 <script>
     async function addToCart(slug) { 
         console.log(slug);
-        let base_url = "http://127.0.0.1:8000";
+        let base_url = "https://ecommerce-by-popov-vasilii-app.ru.com";
         let csrfToken = Cookies.get('csrftoken');
         let response = await axios.post(base_url + '/ajax_add_to_cart/', {
             slug: slug,
@@ -78,27 +78,6 @@
         console.log(response);
     };
 
-    async function filterProducts() {
-        let checkBoxes = document.getElementsByTagName("input");
-        let redirectUrl = window.location.href + '?';
-        if (redirectUrl.includes('?')) {
-            let pos = redirectUrl.indexOf('?');
-            redirectUrl = redirectUrl.substring(1, pos);
-        }
-        for (let i = 0; i < checkBoxes.length; i++) {
-            if (checkBoxes[i].checked === true) {
-                let id = checkBoxes[i].id;
-                let values = id.split(' ');
-                let filterName = values.slice(2, values.length - 1),
-                    choice = values[values.length - 1];
-                redirectUrl += `${filterName}=${choice}`;
-                if (i !== checkBoxes.length - 1) {
-                    redirectUrl += "&";
-                }
-            }
-        }
-        window.location.href = redirectUrl;
-    }
 </script>
 
 {% endblock %}

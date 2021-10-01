@@ -12,35 +12,44 @@ from yookassa import Configuration, Payment
 import json
 import datetime
 from pytz import timezone
+from loguru import logger
 
 
+@logger.catch
 @login_required
 def order_status_view(request):
-    order = get_object_or_404(
-        Order, user=request.user,
-        ordered=True, shipped=False
-    )
-    steps = order.order_steps
-    current_step = 'оплата'
-    for step in steps:
-        if step.date_step_end is None:
-            current_step = step.step.name_step
-            break
-    return render(request, 'payment/order_status.html', {'status': current_step})
+    try:
+        order = Order.objects.get(
+            user=request.user,
+            ordered=True, shipped=False
+        )
+        steps = order.order_steps.all()
+        current_step = 'оплата'
+        for step in steps:
+            if step.date_step_end is None:
+                current_step = step.step.name_step
+                break
+        return render(request, 'payment/order_status.html', {'status': current_step})
+    except Exception as e:
+        logger.error(str(e))
+        return HttpResponse('У вас ещё нет заказа', status=404)
 
 
+@logger.catch
 @login_required
 def get_shipped_orders_view(request):
     orders = Order.objects.filter(shipped=True, user=request.user)
     return render(request, 'payment/orders.html', {'orders': orders})
 
 
+@logger.catch
 @login_required
 def order_view(request, uuid):
-    order = get_object_or_404(Order, uuid=uuid, user=request.user)
+    order = get_object_or_404(Order, uuid=uuid)
     return render(request, 'payment/order.html', {'order': order})
 
 
+@logger.catch
 @login_required
 def pay_view(request):
     if request.method == 'POST':
@@ -63,29 +72,37 @@ def pay_view(request):
                 },
                 'confirmation': {
                     'type': 'redirect',
-                    'return_url': reverse('shop:category')
+                    'return_url': 'https://ecommerce-by-popov-vasilii-app.ru.com/'
                 },
                 'capture': True,
                 'description': f'{request.user}-{amount}',
-            }, order.uuid
-        )
+                'metadata': {
+                    "order_uuid": str(order.uuid)
+                },
+            }, str(order.uuid))
         redirect_url = payment.confirmation.confirmation_url
         return redirect(redirect_url)
     return redirect('shop:checkout')
 
 
+@logger.catch
 @csrf_exempt
 def webhook_handler(request):
+    logger.info('Webhook triggered')
     event_json = json.loads(request.body)
     notification_object = WebhookNotification(event_json)
 
     payment = notification_object.object
     if payment.paid:
+        logger.info("User has paid for his order")
+        order_uuid = uuid.UUID(payment.metadata.get('order_uuid'))
+        logger.info(order_uuid)
         order = Order.objects.get(
-            uuid=payment.id
+            uuid=order_uuid
         )
+        logger.info(order)
         order.ordered = True
-        today_date = datetime.datetime.now(tz=pytz.timezone('Europe/Moscow'))
+        today_date = datetime.datetime.now(tz=timezone('Europe/Moscow'))
         order.ordered_date = today_date.date()
         order.save()
 
@@ -93,7 +110,7 @@ def webhook_handler(request):
         payment_step = order.order_steps.get(step__name_step='оплата')
         packaging_step = order.order_steps.get(step__name_step='упаковка')
         payment_step.date_step_end = now
-        packaging_step.date_step_end = now
+        packaging_step.date_step_begin = now
         payment_step.save()
         packaging_step.save()
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-29 08:10+0000\n"
+"POT-Creation-Date: 2021-10-01 15:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,11 +67,11 @@ msgstr "Пользователь"
 msgid "Users"
 msgstr "Пользователи"
 
-#: ecommerce/settings.py:145
+#: ecommerce/settings.py:146
 msgid "Russian"
 msgstr "Русский"
 
-#: ecommerce/settings.py:146
+#: ecommerce/settings.py:147
 msgid "English"
 msgstr "English"
 
@@ -659,6 +659,7 @@ msgstr[3] ""
 
 #: env/lib/python3.8/site-packages/django/forms/formsets.py:405
 #: env/lib/python3.8/site-packages/django/forms/formsets.py:412
+#: templates/payment/order.html:5
 msgid "Order"
 msgstr ""
 
@@ -1325,7 +1326,6 @@ msgid "Unable to connect to qpid with SASL mechanism %s"
 msgstr ""
 
 #: env/lib/python3.8/site-packages/timezone_field/rest_framework.py:9
-#, fuzzy
 #| msgid "This field is required."
 msgid "A valid timezone is required."
 msgstr "Это поле необходимо"
@@ -1406,7 +1406,7 @@ msgstr "Фото подкатегории"
 msgid "Subcategory"
 msgstr "Подкатегория"
 
-#: shop/models.py:142
+#: shop/models.py:142 templates/shop/subcategory.html:4
 msgid "Subcategories"
 msgstr "Подкатегории"
 
@@ -1534,11 +1534,11 @@ msgstr ""
 msgid "Order's Steps"
 msgstr ""
 
-#: shop/views.py:69
+#: shop/views.py:71
 msgid "You do not have an active order"
 msgstr ""
 
-#: shop/views.py:111 shop/views.py:128
+#: shop/views.py:129 shop/views.py:153
 msgid "This item doesn't exist"
 msgstr "Товар не существует"
 
@@ -1679,7 +1679,7 @@ msgid "Sign In"
 msgstr "Войти"
 
 #: templates/allauth/account/login.html:15
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Please sign in with one\n"
 #| "of your existing third party accounts. Or, <a href=\"%(signup_url)s"
@@ -1836,7 +1836,7 @@ msgstr "Регистрация"
 #: templates/allauth/account/signup.html:10
 #: templates/allauth/account/signup.html:18
 #: templates/allauth/socialaccount/signup.html:9
-#: templates/allauth/socialaccount/signup.html:20 templates/shop/navbar.html:79
+#: templates/allauth/socialaccount/signup.html:20 templates/shop/navbar.html:81
 msgid "Sign Up"
 msgstr "Зарегистрироваться"
 
@@ -1965,7 +1965,37 @@ msgid ""
 "%(site_name)s. As a final step, please complete the following form:"
 msgstr ""
 
-#: templates/payment/order_status.html:5
+#: templates/payment/order.html:19 templates/shop/cart.html:13
+#: templates/shop/checkout.html:13
+msgid "Number"
+msgstr "Номер"
+
+#: templates/payment/order.html:20 templates/shop/cart.html:14
+#: templates/shop/checkout.html:14
+msgid "Title"
+msgstr "Название"
+
+#: templates/payment/order.html:21 templates/shop/cart.html:15
+#: templates/shop/checkout.html:15
+msgid "Price"
+msgstr "Цена"
+
+#: templates/payment/order.html:22 templates/shop/cart.html:16
+#: templates/shop/checkout.html:16
+msgid "Amount"
+msgstr "Количество"
+
+#: templates/payment/order.html:41 templates/shop/cart.html:58
+#: templates/shop/checkout.html:35
+msgid "Your cart is empty"
+msgstr "Ваша корзина пуста"
+
+#: templates/payment/order.html:45 templates/shop/cart.html:62
+#: templates/shop/checkout.html:39
+msgid "Total of all"
+msgstr "Сумма"
+
+#: templates/payment/order_status.html:5 templates/shop/navbar.html:75
 msgid "Order Status"
 msgstr "Статус вашего заказа"
 
@@ -1978,48 +2008,37 @@ msgid "status"
 msgstr "статус"
 
 #: templates/payment/order_status.html:14
+#| msgid ""
+#| "If you have paid for your order, each 20 seconds status of your order "
+#| "will change, otherwise it waits for you to pay for it"
 msgid ""
-"If you have paid for your order, each 20 seconds status of your order will "
+"If you have paid for your order, each 2 minutes status of your order will "
 "change, otherwise it waits for you to pay for it"
-msgstr "Если вы заплатили за ваш заказ, то каждые 20 секунд его статус будет меняться, иначе заказ ждёт оплаты"
+msgstr ""
+"Если вы заплатили за ваш заказ, то каждые 2 минуты его статус будет "
+"меняться, иначе заказ ждёт оплаты"
 
-#: templates/shop/cart.html:5 templates/shop/navbar.html:75
+#: templates/payment/orders.html:5
+msgid "Shipped Orders"
+msgstr "Доставленные заказы"
+
+#: templates/payment/orders.html:17
+msgid "Order Items"
+msgstr "Товары в заказе"
+
+#: templates/shop/cart.html:5 templates/shop/navbar.html:77
 msgid "Cart"
 msgstr "Корзина"
-
-#: templates/shop/cart.html:13 templates/shop/checkout.html:13
-msgid "Number"
-msgstr "Номер"
-
-#: templates/shop/cart.html:14 templates/shop/checkout.html:14
-msgid "Title"
-msgstr "Название"
-
-#: templates/shop/cart.html:15 templates/shop/checkout.html:15
-msgid "Price"
-msgstr "Цена"
-
-#: templates/shop/cart.html:16 templates/shop/checkout.html:16
-msgid "Amount"
-msgstr "Количество"
 
 #: templates/shop/cart.html:17
 msgid "Total"
 msgstr "Итого"
 
-#: templates/shop/cart.html:56 templates/shop/checkout.html:35
-msgid "Your cart is empty"
-msgstr "Ваша корзина пуста"
-
-#: templates/shop/cart.html:60 templates/shop/checkout.html:39
-msgid "Total of all"
-msgstr "Сумма"
-
-#: templates/shop/cart.html:69
+#: templates/shop/cart.html:71
 msgid "Go to payment page"
 msgstr "На страницу оплаты"
 
-#: templates/shop/cart.html:75
+#: templates/shop/cart.html:77
 msgid "Go to Home"
 msgstr "На главную"
 
@@ -2032,12 +2051,15 @@ msgid "Checkout"
 msgstr "Покупка"
 
 #: templates/shop/checkout.html:47
+#| msgid ""
+#| "Each step after payment is taking exactly 20 seconds, because this "
+#| "ecommerce is just a pet project"
 msgid ""
-"Each step after payment is taking exactly 20 seconds, because this ecommerce "
+"Each step after payment is taking exactly 2 minutes, because this ecommerce "
 "is just a pet project"
 msgstr ""
-"Каждый шаг(упаковка, доставка в город, доставка по городу) занимает 20 "
-"секунд, так как это не настоящий магазин"
+"Каждый шаг(упаковка, доставка в город, доставка по городу) занимает 2 минуты"
+", так как это не настоящий магазин"
 
 #: templates/shop/checkout.html:52
 msgid "Pay with Yookassa"
@@ -2061,14 +2083,18 @@ msgid "Search"
 msgstr "Найти"
 
 #: templates/shop/navbar.html:76
+msgid "My orders"
+msgstr "Мои заказы"
+
+#: templates/shop/navbar.html:78
 msgid "Log Out"
 msgstr "Выйти"
 
-#: templates/shop/navbar.html:81
+#: templates/shop/navbar.html:83
 msgid "Login"
 msgstr "Войти"
 
-#: templates/shop/subcategory.html:23
+#: templates/shop/subcategory.html:27
 msgid "Goods"
 msgstr "Товары"
 
