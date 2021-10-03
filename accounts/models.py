@@ -47,7 +47,8 @@ class User(AbstractUser):
         on_delete=models.SET_NULL,
         related_name='users',
         blank=True, null=True,
-        verbose_name=_('city')
+        verbose_name=_('city'),
+        db_index=True
     )
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

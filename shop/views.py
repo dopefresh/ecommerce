@@ -12,7 +12,7 @@ from django.views.generic import DetailView, ListView, View
 from django.conf import settings
 from django.core.paginator import Paginator
 
-from .models import Category, Subcategory, Item, Order, Step, OrderStep, OrderItem, SubcategoryFilter
+from .models import Category, Subcategory, Item, Order, Step, OrderStep, OrderItem
 
 from loguru import logger
 import json
@@ -94,12 +94,17 @@ class CartView(LoginRequiredMixin, View):
                 pay_step = Step.objects.get(name_step='оплата')
                 package_step = Step.objects.get(name_step='упаковка')
                 transport_step = Step.objects.get(name_step='доставка в город')
-                delivery_step = Step.objects.get(name_step='доставка по городу')
+                delivery_step = Step.objects.get(
+                    name_step='доставка по городу')
 
-                order_step1 = OrderStep.objects.create(order=order, step=pay_step)
-                order_step2 = OrderStep.objects.create(order=order, step=package_step)
-                order_step3 = OrderStep.objects.create(order=order, step=transport_step)
-                order_step4 = OrderStep.objects.create(order=order, step=delivery_step)
+                order_step1 = OrderStep.objects.create(
+                    order=order, step=pay_step)
+                order_step2 = OrderStep.objects.create(
+                    order=order, step=package_step)
+                order_step3 = OrderStep.objects.create(
+                    order=order, step=transport_step)
+                order_step4 = OrderStep.objects.create(
+                    order=order, step=delivery_step)
                 order.order_steps.add(
                     order_step1, order_step2, order_step3, order_step4
                 )
@@ -127,7 +132,7 @@ def ajax_add_to_cart(request):
         item = Item.objects.get(slug=event_json.get('slug'))
     except:
         return JsonResponse({'error': _("This item doesn't exist")}, status=400)
-    
+
     try:
         order, order_created = Order.objects.get_or_create(
             user=request.user, ordered=False, shipped=False

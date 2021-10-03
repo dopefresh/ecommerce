@@ -9,9 +9,7 @@ from .models import (
     Order,
     OrderStep,
     Step,
-    Employee,
-    SubcategoryFilter,
-    SubcategoryFilterChoice
+    Employee
 )
 
 admin.site.register(Company)
@@ -23,5 +21,3 @@ admin.site.register(Order)
 admin.site.register(OrderStep)
 admin.site.register(Step)
 admin.site.register(Employee)
-admin.site.register(SubcategoryFilter)
-admin.site.register(SubcategoryFilterChoice)

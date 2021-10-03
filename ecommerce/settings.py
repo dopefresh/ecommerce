@@ -27,7 +27,6 @@ CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', cast=bool)
 
 CORS_ALLOW_ALL_ORIGINS = config('CORS_ALLOW_ALL_ORIGINS', cast=bool)
 
-SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', cast=bool)
 SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', cast=bool)
 
 INSTALLED_APPS = [
@@ -89,6 +88,8 @@ DB_NAME = config('DB_NAME')
 DB_USER = config('DB_USER')
 DB_PASSWORD = config('DB_PASSWORD')
 DB_HOST = config('DB_HOST')
+DB_PORT = config('DB_PORT')
+DB_PORT_DEV = config('DB_PORT_DEV')
 DB_HOST_DOCKER = config('DB_HOST_DOCKER')
 DATABASES = {
     'default': {
@@ -97,7 +98,7 @@ DATABASES = {
         'USER': DB_USER,
         'PASSWORD': DB_PASSWORD,
         'HOST': DB_HOST,
-        'PORT': '6432',
+        'PORT': DB_PORT_DEV,
     }
 }
 
@@ -206,4 +207,3 @@ EMAIL_USE_TLS = True
 
 # CSS error
 mimetypes.add_type("text/css", ".css", True)
-

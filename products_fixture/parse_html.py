@@ -24,16 +24,15 @@ for file_name in files:
             .find('span')\
             .contents[0]
 
-        statistics = div.find('div', attrs={'class': 'catalog-product__stat'})
-        rating_div = statistics.find(
-            'a', attrs={'class': 'catalog-product__rating ui-link ui-link_black'})
-        rating = rating_div.get('data-rating')
-        likes = rating_div.contents[-1]
-
-        comment = statistics.find(
-            'a', attrs={'class': 'catalog-product__comment ui-link ui-link_black'})
-
-        price = ''
+        image = div.find('div', attrs={'class': 'catalog-product__image'})
+        image_href = ''
+        try:
+            image_href = image.picture.source['data-srcset']
+            logger.info(image_href)
+        except Exception as e:
+            logger.error(str(e))
+            logger.info('No image')
+        price = 1000
         try:
             price = div.find('div', {'class': re.compile(r'^product-buy product-buy_one-line catalog-product__buy.*?$')})\
                 .find('div', {'class': re.compile(r'^product-buy__price-wrap product-buy__price-wrap_interactive.*?$')})\
@@ -43,18 +42,10 @@ for file_name in files:
         except:
             logger.info('no price')
 
-        try:
-            comment_amount = find_max_number(comment.contents[1])
-        except Exception as e:
-            comment_amount = 0
-            logger.info(str(e))
-
         product_statistic = {
             'name': name,
             'price': price,
-            'stars': rating,
-            'likes': likes,
-            'comments': comment_amount
+            'image_href': image_href
         }
         parsed_data.append(product_statistic)
 

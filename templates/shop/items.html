@@ -8,20 +8,16 @@
 <div class="container mb-5">
     <div class="row">
         <div class="col-sm-4">
-            Картинок нет, так как парсил без них
         </div>
         <div class="col-sm-8">
             {% for item in page_obj %}
             <div class="card mb-3">
                 <div class="row no-gutters">
-                    {% if item.image %}
                     <div class="col-md-4">
-
                         <a href="{% url 'shop:product' item.slug %}">
-                            <img src="{{ item.image.url }}" class="card-img" alt="...">
+                            <img src="{{ item.image_href }}" class="card-img" alt="...">
                         </a>
                     </div>
-                    {% endif %}
 
                     <div class="col-md-8">
                         <div class="card-body">
@@ -35,13 +31,14 @@
                                         {{ item.price }}₽
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 mb-5">
                                     <button class="btn btn-primary"
                                             onclick="addToCart('{{ item.slug }}')"
                                             role="button">
                                         {% trans 'Add to cart' %}
                                     </button>
                                 </div>
+                                <p hidden id="not-registered-alert-{{ item.slug }}" class="text-center text-danger">{% trans 'You are not registered' %}</p>
                             </div>
                         </div>
                     </div>
@@ -74,10 +71,16 @@
             headers: {
                 'X-CSRFToken': csrfToken
             }
+        }).catch(err => function handle(err) {
+            console.log(err);
         });
         console.log(response);
-    };
-
+        if (response.status != 201) {
+            document.querySelector(`#not-registered-alert-${slug}`).hidden = false; 
+        } else {
+            document.querySelector(`#not-registered-alert-${slug}`).hidden = true;
+        }
+    }
 </script>
 
 {% endblock %}

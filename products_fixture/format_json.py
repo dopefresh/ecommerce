@@ -13,6 +13,7 @@ for product in statistics_json:
     product['fields'] = {}
     product['fields']['title'] = product['name']
     product['fields']['slug'] = slugify(product['name'])
+    product['fields']['image_href'] = product['image_href']
     try:
         price = product['price'][:-2:]
         price = price.replace(' ', '')
@@ -31,11 +32,9 @@ for product in statistics_json:
         product['fields']['subcategory'] = 4
     i += 1
 
-    product.pop('stars', None)
-    product.pop('likes', None)
-    product.pop('comments', None)
     product.pop('name', None)
     product.pop('price', None)
+    product.pop('image_href', None)
 
 
 with open('products.json', 'w', encoding='utf-8') as f:

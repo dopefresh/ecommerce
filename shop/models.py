@@ -68,7 +68,8 @@ class Employee(models.Model):
         on_delete=models.SET_NULL,
         blank=True, null=True,
         related_name='employees',
-        verbose_name=_('company')
+        verbose_name=_('company'),
+        db_index=True
     )
     phone_number = models.CharField(
         _('phone number'),
@@ -129,7 +130,8 @@ class Subcategory(models.Model):
     category = models.ForeignKey('Category',
                                  on_delete=models.CASCADE,
                                  related_name='subcategories',
-                                 verbose_name=_('category'))
+                                 verbose_name=_('category'),
+                                 db_index=True)
     image = models.ImageField(
         _('Subcategory image'),
         upload_to=subcategory_directory,
@@ -165,22 +167,27 @@ class Item(models.Model):
     price = models.IntegerField(
         _('Product price'),
         blank=False, null=False)
-    image = models.ImageField(
-        _('Product image'),
-        upload_to=company_product_directory,
-        blank=True,
-        null=True)
-
+    image_href = models.CharField(
+        _('Product image href'),
+        blank=True, null=True,
+        max_length=500
+    )
     slug = models.SlugField(blank=True, max_length=255)
-    subcategory = models.ForeignKey('Subcategory',
-                                    on_delete=models.SET_NULL,
-                                    null=True,
-                                    related_name='items',
-                                    verbose_name=_('subcategory'))
-    company = models.ForeignKey('Company',
-                                on_delete=models.SET_NULL,
-                                null=True,
-                                verbose_name=_('company'))
+    subcategory = models.ForeignKey(
+        'Subcategory',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='items',
+        verbose_name=_('subcategory'),
+        db_index=True
+    )
+    company = models.ForeignKey(
+        'Company',
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name=_('company'),
+        db_index=True
+    )
 
     class Meta:
         db_table = 'item'
@@ -196,55 +203,6 @@ class Item(models.Model):
         tasks.save_item_image.delay(self.pk)
 
 
-class SubcategoryFilter(models.Model):
-    title = models.CharField(
-        max_length=30,
-        blank=False, null=False,
-        default=''
-    )
-    subcategory = models.ForeignKey(
-        'Subcategory',
-        on_delete=models.CASCADE,
-        related_name='subcategory_filters',
-        verbose_name=_('subcategory')
-    )
-
-    class Meta:
-        db_table = 'subcategory_filter'
-        verbose_name = _("Product filter")
-        verbose_name_plural = _("Product filters")
-
-    def __str__(self):
-        return self.title
-
-
-class SubcategoryFilterChoice(models.Model):
-    """
-    Selectable to include some kind of items.
-    I.e. items whose price is more than 4000 r.
-    """
-    subcategory_filter = models.ForeignKey(
-        'SubcategoryFilter',
-        on_delete=models.CASCADE,
-        verbose_name=_('Product filter'),
-        related_name='choices'
-    )
-    choice_text = models.CharField(
-        max_length=40,
-        blank=False, null=False,
-        default='',
-        verbose_name=_('Choice')
-    )
-
-    class Meta:
-        db_table = 'subcategory_filter_choice'
-        verbose_name = _("Choice for product filter")
-        verbose_name_plural = _("Choices for product filter")
-
-    def __str__(self):
-        return f"{self.subcategory_filter} {self.choice_text}"
-
-
 class OrderItem(models.Model):
     """
     User's items in his order
@@ -253,11 +211,15 @@ class OrderItem(models.Model):
         _('Quantity of item in order'),
         default=1)
     item = models.ForeignKey(
-        'Item', on_delete=models.CASCADE, verbose_name=_('item'))
+        'Item', on_delete=models.CASCADE,
+        verbose_name=_('item'),
+        db_index=True
+    )
     order = models.ForeignKey('Order',
                               related_name='order_items',
                               on_delete=models.CASCADE,
-                              verbose_name=_('order'))
+                              verbose_name=_('order'),
+                              db_index=True)
 
     class Meta:
         db_table = 'order_item'
@@ -292,7 +254,8 @@ class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE,
                              related_name='orders',
-                             verbose_name=_('user'))
+                             verbose_name=_('user'),
+                             db_index=True)
 
     class Meta:
         db_table = 'order'
@@ -333,13 +296,15 @@ class Step(models.Model):
 class OrderStep(models.Model):
     step = models.ForeignKey(
         'Step', on_delete=models.CASCADE,
-        verbose_name=_('step')
+        verbose_name=_('step'),
+        db_index=True
     )
     order = models.ForeignKey(
         'Order',
         on_delete=models.CASCADE,
         verbose_name=_('order'),
-        related_name='order_steps'
+        related_name='order_steps',
+        db_index=True
     )
     date_step_begin = models.DateTimeField(
         _('Date step began'),
@@ -352,5 +317,3 @@ class OrderStep(models.Model):
     class Meta:
         verbose_name = _("Order's Step")
         verbose_name_plural = _("Order's Steps")
-
-
