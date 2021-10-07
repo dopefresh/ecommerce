@@ -97,7 +97,7 @@ DATABASES = {
         'NAME': DB_NAME,
         'USER': DB_USER,
         'PASSWORD': DB_PASSWORD,
-        'HOST': DB_HOST,
+        'HOST': DB_HOST_DOCKER,
         'PORT': DB_PORT_DEV,
     }
 }
@@ -186,8 +186,8 @@ logger.add("error_django.log", format="{time} {level} {message}",
 # CELERY
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
-CELERY_BROKER_URL = config('CELERY_BROKER_URL')
-CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND')
+CELERY_BROKER_URL = config('CELERY_BROKER_URL_DOCKER')
+CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND_DOCKER')
 CELERY_IMPORTS = ('payment.tasks', 'shop.tasks',)
 CELERY_BEAT_SCHEDULE = {
     'update_orders': {

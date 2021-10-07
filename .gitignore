@@ -1,4 +1,3 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/django,python,intellij
 # Edit at https://www.toptal.com/developers/gitignore?templates=django,python,intellij
 
@@ -94,6 +93,9 @@ target/
 # IPython
 profile_default/
 ipython_config.py
+
+# Pyright
+pyrightconfig.json
 
 # pyenv
 #   For a library or package, you might want to ignore these files since the code is
