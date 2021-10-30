@@ -113,7 +113,7 @@ class CartView(LoginRequiredMixin, View):
             return redirect(reverse('shop:category'))
         except IntegrityError as e:
             transaction.rollback()
-            # 4 Order Steps was already present
+            # 4 Order Steps were already present
             if 'unique constraint' in e.message:
                 order = Order.objects.prefetch_related('order_items').get(
                     user=user, ordered=False,

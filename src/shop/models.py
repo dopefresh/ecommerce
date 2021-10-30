@@ -243,7 +243,10 @@ class Order(models.Model):
         _("Date when ordered"),
         blank=True, null=True)
 
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    uuid = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False
+    )
     amount = models.IntegerField(blank=True, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE,

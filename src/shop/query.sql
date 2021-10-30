@@ -12,6 +12,7 @@ FROM OrderStepJoinedCTE
 RETURNING order_id;
 
 
+
 WITH ItemCTE AS (
     SELECT shop_item.id AS item_id
     FROM shop_item
@@ -21,6 +22,7 @@ INSERT INTO shop_orderitem(quantity, item_id, order_id)
 SELECT 1, ItemCTE.item_id, 9
 FROM ItemCTE
 ON CONFLICT(item_id, order_id) DO NOTHING;
+
 
 
 WITH ItemCTE AS (
@@ -38,6 +40,7 @@ WHERE item_id = (
 ) AND order_id = (
     SELECT order_id FROM OrderCTE
 );
+
 
 
 WITH ItemCTE AS (
