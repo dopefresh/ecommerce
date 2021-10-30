@@ -2,6 +2,7 @@ from django.views.generic import DetailView, ListView, View
 from django.shortcuts import HttpResponse, render, redirect, reverse, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.db import transaction, connections, IntegrityError
 
 from shop.models import Order, OrderStep, Step
 
@@ -15,13 +16,11 @@ from pytz import timezone
 from loguru import logger
 
 
-@logger.catch
 @login_required
 def order_status_view(request):
     try:
-        order = Order.objects.get(
-            user=request.user,
-            ordered=True, shipped=False
+        order = Order.objects.prefetch_related('order_steps').get(
+            user=request.user, ordered=False, shipped=False
         )
         steps = order.order_steps.all()
         current_step = 'оплата'
@@ -35,21 +34,18 @@ def order_status_view(request):
         return HttpResponse('У вас ещё нет заказа', status=404)
 
 
-@logger.catch
 @login_required
 def get_shipped_orders_view(request):
     orders = Order.objects.filter(shipped=True, user=request.user)
     return render(request, 'payment/orders.html', {'orders': orders})
 
 
-@logger.catch
 @login_required
 def order_view(request, uuid):
     order = get_object_or_404(Order, uuid=uuid)
     return render(request, 'payment/order.html', {'order': order})
 
 
-@logger.catch
 @login_required
 def pay_view(request):
     if request.method == 'POST':
@@ -85,7 +81,46 @@ def pay_view(request):
     return redirect('shop:checkout')
 
 
-@logger.catch
+# TODO: check yookassa api again and find out where uuid is created
+# works only in postgres didn't test it yet, as I'm busy with another private project
+def set_order_as_ordered(uuid, now_time):
+    with connections['default'].cursor() as cursor:
+        query = '''    
+            WITH OrderCTE AS (
+                UPDATE shop_order
+                SET ordered_date = %s,
+                    ordered = TRUE
+                WHERE shop_order.uuid = %s
+                RETURNING id AS order_id
+            ), StepCTE AS (
+                SELECT shop_step.id AS step_id, shop_step.name_step
+                FROM shop_step
+            )
+            UPDATE shop_orderstep
+            SET date_step_end = (
+                CASE
+                    WHEN shop_orderstep.step_id = (
+                        SELECT step_id FROM StepCTE WHERE name_step = 'оплата'
+                    )
+                    THEN %s
+                    ELSE NULL
+                END
+            ), date_step_begin = (
+                CASE
+                    WHEN shop_orderstep.step_id = (
+                        SELECT step_id FROM StepCTE WHERE name_step = 'упаковка'
+                    )
+                    THEN %s
+                    ELSE NULL
+                END
+            )
+            WHERE shop_orderstep.order_id = (
+                SELECT order_id FROM OrderCTE
+            )
+        '''
+        cursor.execute(query, [now_time, uuid, now_time, now_time])
+
+
 @csrf_exempt
 def webhook_handler(request):
     logger.info('Webhook triggered')
@@ -94,24 +129,12 @@ def webhook_handler(request):
 
     payment = notification_object.object
     if payment.paid:
-        logger.info("User has paid for his order")
-        order_uuid = uuid.UUID(payment.metadata.get('order_uuid'))
-        logger.info(order_uuid)
-        order = Order.objects.get(
-            uuid=order_uuid
-        )
-        logger.info(order)
-        order.ordered = True
-        today_date = datetime.datetime.now(tz=timezone('Europe/Moscow'))
-        order.ordered_date = today_date.date()
-        order.save()
-
-        now = datetime.datetime.now(tz=timezone('Europe/Moscow'))
-        payment_step = order.order_steps.get(step__name_step='оплата')
-        packaging_step = order.order_steps.get(step__name_step='упаковка')
-        payment_step.date_step_end = now
-        packaging_step.date_step_begin = now
-        payment_step.save()
-        packaging_step.save()
+        with transaction.atomic():
+            order_uuid = uuid.UUID(payment.metdata.get('order_uuid'))
+            now_time = datetime.datetime.now(tz=timezone('Europe/Moscow'))
+            set_order_as_ordered(
+                uuid=order_uuid,
+                now_time=now_time
+            )
 
     return HttpResponse(status=200)

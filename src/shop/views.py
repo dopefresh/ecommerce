@@ -97,7 +97,6 @@ def create_order_steps(user_id: int) -> int:
         return row[0]
 
 
-# TODO queries
 class CartView(LoginRequiredMixin, View):
     @transaction.atomic
     def get(self, *args, **kwargs):
