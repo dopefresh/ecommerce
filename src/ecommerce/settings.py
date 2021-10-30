@@ -1,12 +1,11 @@
-import os
-from pathlib import Path
-
-from decouple import config
-from loguru import logger
-import mimetypes
-
 from django.utils.timezone import timedelta
 from django.utils.translation import gettext_lazy as _
+
+import os
+from pathlib import Path
+from decouple import config
+import mimetypes
+import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -177,17 +176,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # CRISPY FORMS
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-# Logging
-logger.add("info_django.log", format="{time} {level} {message}",
-           level="INFO", rotation="1000 KB", compression="zip")
-logger.add("error_django.log", format="{time} {level} {message}",
-           level="ERROR", rotation="1000 KB", compression="zip")
-
 # CELERY
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
-CELERY_BROKER_URL = config('CELERY_BROKER_URL_DOCKER')
-CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND_DOCKER')
+CELERY_BROKER_URL = config('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND')
 CELERY_IMPORTS = ('payment.tasks', 'shop.tasks',)
 CELERY_BEAT_SCHEDULE = {
     'update_orders': {
@@ -207,3 +200,99 @@ EMAIL_USE_TLS = True
 
 # CSS error
 mimetypes.add_type("text/css", ".css", True)
+
+
+class DebugFilter(logging.Filter):
+    def filter(self, record: logging.LogRecord) -> bool:
+        return record.levelname == 'DEBUG'
+
+
+class InfoFilter(logging.Filter):
+    def filter(self, record: logging.LogRecord) -> bool:
+        return record.levelname == 'INFO'
+
+
+class WarningFilter(logging.Filter):
+    def filter(self, record: logging.LogRecord) -> bool:
+        return record.levelname == 'WARNING'
+
+
+class ErrorFilter(logging.Filter):
+    def filter(self, record: logging.LogRecord) -> bool:
+        return record.levelname == 'ERROR'
+
+
+LOGGING = {
+    'version': 1,
+    'formatters': {
+        'default': {
+            'class': 'logging.Formatter',
+            'format': '%(asctime)s - %(name)s- %(lineno)s - %(message)s'
+        },
+        'simple': {
+            'class': 'logging.Formatter',
+            'format': '%(name)s.%(lineno)s - %(message)s'
+        }
+    },
+    'filters': {
+        'debug': {
+            '()': DebugFilter
+        },
+        'info': {
+            '()': InfoFilter
+        },
+        'warning': {
+            '()': WarningFilter
+        },
+        'error': {
+            '()': ErrorFilter
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'level': 'DEBUG',
+            'formatter': 'simple'
+        },
+        'debug': {
+            'class': 'logging.FileHandler',
+            'filename': f'{BASE_DIR}/logs/debug.log',
+            'formatter': 'simple',
+            'level': 'DEBUG',
+            'filters': ['debug']
+        },
+        'info': {
+            'class': 'logging.FileHandler',
+            'filename': f'{BASE_DIR}/logs/info.log',
+            'formatter': 'default',
+            'level': 'INFO',
+            'filters': ['info']
+        },
+        'warning': {
+            'class': 'logging.FileHandler',
+            'filename': f'{BASE_DIR}/logs/warning.log',
+            'formatter': 'default',
+            'level': 'WARNING',
+            'filters': ['warning']
+        },
+        'error': {
+            'class': 'logging.FileHandler',
+            'filename': f'{BASE_DIR}/logs/error.log',
+            'level': 'ERROR',
+            'formatter': 'default',
+            'filters': ['error']
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['info'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+    'root': {
+        'level': 'DEBUG',
+        'handlers': ['debug', 'info', 'warning', 'error'],
+        'propagate': False
+    },
+}

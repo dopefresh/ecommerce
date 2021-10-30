@@ -46,7 +46,6 @@ class Company(models.Model):
         null=True)
 
     class Meta:
-        db_table = 'company'
         verbose_name = _('Company')
         verbose_name_plural = _('Companies')
 
@@ -83,7 +82,6 @@ class Employee(models.Model):
     )
 
     class Meta:
-        db_table = 'employee'
         verbose_name_plural = _('Company employees')
         verbose_name = _("Company employee")
 
@@ -106,7 +104,6 @@ class Category(models.Model):
         null=True)
 
     class Meta:
-        db_table = 'category'
         verbose_name = _('Category')
         verbose_name_plural = _("Categories")
 
@@ -139,7 +136,6 @@ class Subcategory(models.Model):
         null=True)
 
     class Meta:
-        db_table = 'subcategory'
         verbose_name = _('Subcategory')
         verbose_name_plural = _('Subcategories')
 
@@ -190,7 +186,6 @@ class Item(models.Model):
     )
 
     class Meta:
-        db_table = 'item'
         verbose_name = _('Product')
         verbose_name_plural = _('Products')
 
@@ -222,7 +217,6 @@ class OrderItem(models.Model):
                               db_index=True)
 
     class Meta:
-        db_table = 'order_item'
         verbose_name = _("Item in user order")
         verbose_name_plural = _("Items in user order")
         unique_together = (
@@ -258,7 +252,6 @@ class Order(models.Model):
                              db_index=True)
 
     class Meta:
-        db_table = 'order'
         verbose_name = _("User's cart")
         verbose_name_plural = _("User's Carts")
 
@@ -315,5 +308,6 @@ class OrderStep(models.Model):
         null=True)
 
     class Meta:
+        unique_together = ('step', 'order')
         verbose_name = _("Order's Step")
         verbose_name_plural = _("Order's Steps")

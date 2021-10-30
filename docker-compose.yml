@@ -2,25 +2,24 @@ version: "3.3"
 
 services:
     rabbitmq_server:
-        image: rabbitmq
+        image: bitnami/rabbitmq
         container_name: rabbitmq_server
         volumes:
           - ./rabbitmq:/var/lib/rabbitmq
         environment:
-          - USER=$DOCKER_RABBITMQ_USER
-          - PASSWORD=$DOCKER_RABBITMQ_PASSWORD
+          - RABBITMQ_USER=$DOCKER_RABBITMQ_USER
+          - RABBITMQ_PASSWORD=$DOCKER_RABBITMQ_PASSWORD
     
     redis_server:
-        image: redis
+        image: bitnami/redis
         container_name: redis_server
         volumes:
           - ./redis:/var/lib/redis
         environment:
-          - USER=$DOCKER_REDIS_USER
-          - PASSWORD=$DOCKER_REDIS_PASSWORD
+          - REDIS_PASSWORD=$DOCKER_REDIS_PASSWORD
     
     celery:
-        working_dir: /app
+        working_dir: /app/src
         build: .
         command: celery -A ecommerce worker -l INFO --logfile=celery_info.log
         depends_on:

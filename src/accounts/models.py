@@ -22,7 +22,6 @@ class City(models.Model):
     )
 
     class Meta:
-        db_table = 'city'
         verbose_name = _('City available for delivery')
         verbose_name_plural = _("Cities available for delivery")
 
